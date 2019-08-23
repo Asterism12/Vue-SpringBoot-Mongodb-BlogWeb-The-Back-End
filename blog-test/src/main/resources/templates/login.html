@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <title>user login</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div layout:fragment="content" class="container">
+    <form action="/user/login" method="post" th:object="${user}">
+
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+            <p th:each="error : ${#fields.errors('*')}" th:text="${error}">
+                Validation error</p>
+        </div>
+
+        <span th:text="${errorMsg}" class="label label-danger"/>
+
+        <div class="input-group">
+            <input type="text" name="username" placeholder="用户名" class="form-control"/>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" placeholder="密  码" class="form-control"/>
+        </div>
+
+        <div class="form-actions">
+            <input type="submit" value="Login"/>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
