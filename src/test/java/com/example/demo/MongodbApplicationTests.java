@@ -26,7 +26,9 @@ public class MongodbApplicationTests {
 	@org.junit.Test
 	public void testdelete() {
 		User b=new User(30L,"1333","2051");
+		User c=new User(11l,"1234","2222");
 		mongotemplate.save(b);
+		mongotemplate.save(c);
 	}
 	
 	@org.junit.Test
