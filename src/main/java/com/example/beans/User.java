@@ -1,25 +1,13 @@
 package com.example.beans;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="user")
-public class User {
-
-    @Id
-    private Long id;
+public class User extends Entity{
 
     private String username;
 
     private String password;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -36,12 +24,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public User(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-    }
+    
     public String toString() {
     	return username+password;
     }
