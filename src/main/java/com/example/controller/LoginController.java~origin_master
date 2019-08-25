@@ -17,7 +17,7 @@ import com.example.result.Result;
 public class LoginController {
 	
 	@CrossOrigin
-	@PostMapping(value="114.115.170.8/api/login")
+	@PostMapping(value="api/login")
 	@ResponseBody
 	public Result login(@RequestBody User requestUser) {
 		
