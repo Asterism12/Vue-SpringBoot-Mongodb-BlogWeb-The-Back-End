@@ -11,6 +11,8 @@ import org.springframework.web.util.HtmlUtils;
 import com.example.mongodb.MongodbController;
 import com.example.result.Result;
 
+//与前端交互，从api/login接受前端信息，使用Result类返回信息
+
 @Controller
 public class LoginController {
 	

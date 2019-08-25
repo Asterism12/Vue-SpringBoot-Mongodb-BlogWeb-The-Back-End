@@ -13,13 +13,21 @@ public class MongodbController {
 	@Autowired
 	private static MongoTemplate mongotemplate;
 	
-	public void insertUser(int id,String username,String password) {
-		User user=new User();
-		user.setId(id);
-		user.setPassword(password);
-		user.setUsername(username);
-		mongotemplate.insert(user);
+	//登录
+	
+	public static boolean insertUser(int id,String username,String password) {
+		if(findUser(username)) return false;
+		else {
+			User user=new User();
+			user.setId(0);
+			user.setPassword(password);
+			user.setUsername(username);
+			mongotemplate.save(user);
+			return true;
+		}
 	}
+	
+	//注册
 	
 	public static boolean login(String username,String password) {
 		Query query=new Query();
@@ -31,15 +39,18 @@ public class MongodbController {
 		else return false;
 	}
 	
-	public boolean findUser(String username) {
+	//根据用户名查找用户
+	
+	public static boolean findUser(String username) {
 		Query query=new Query();
 		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)), User.class);
 		if(ret!=null) {
-			System.out.println(ret);
 			return true;
 		}
 		return false;
 	}
+	
+	//修改用户名
 	
 	public void changeusername(String username1,String username2,String password) {
 		Query query=new Query();
