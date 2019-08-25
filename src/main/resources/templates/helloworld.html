@@ -7,16 +7,12 @@
 <body>
     <span>hello </span><span th:text="${name}"></span>
     <div>
-        <form action="/test" method="post" th:object="${testclass}">
-
-
-
+        <form action="/api/login" method="post" >
             <div>
-                <input type="text" name="test1" placeholder="test1" class="form-control"/>
+                <input type="text" name="username" placeholder="username" class="form-control"/>
             </div>
-
             <div>
-                <input type="text" name="test2" placeholder="test2" class="form-control"/>
+                <input type="text" name="password" placeholder="password" class="form-control"/>
             </div>
 
             <button>测试按钮</button>
