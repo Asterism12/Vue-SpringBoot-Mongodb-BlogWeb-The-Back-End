@@ -4,12 +4,12 @@ import org.springframework.data.annotation.Id;
 
 public class Entity {
 	@Id
-	private int Id;
+	private long Id;
 	
-	public int getId() {
+	public long getId() {
 		return Id;
 	}
-	public void setId(int Id) {
-		this.Id=Id;
+	public void setId(long m) {
+		this.Id=m;
 	}
 }

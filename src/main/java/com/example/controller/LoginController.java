@@ -17,13 +17,13 @@ import com.example.result.Result;
 public class LoginController {
 	
 	@CrossOrigin
-	@PostMapping(value="api/login")
+	@PostMapping(value="/login")
 	@ResponseBody
 	public Result login(@RequestBody User requestUser) {
-		
+		System.out.println("hello world");
 		String username=requestUser.getName();
 		username=HtmlUtils.htmlEscape(username);
-		
+		System.out.println(username);
 		if(MongodbController.login(username,requestUser.getPassword())) {
 			return new Result(200);
 		}
