@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <span>hello </span><span th:text="${name}"></span>
+    <div>
+        <form action="/test" method="post" th:object="${testclass}">
+
+
+
+            <div>
+                <input type="text" name="test1" placeholder="test1" class="form-control"/>
+            </div>
+
+            <div>
+                <input type="text" name="test2" placeholder="test2" class="form-control"/>
+            </div>
+
+            <button>测试按钮</button>
+        </form>
+    </div>
+
+</body>
+</html>
