@@ -28,6 +28,7 @@ public class LoginController {
 		String username=requestUser.getUsername();
 		username=HtmlUtils.htmlEscape(username);
 		System.out.println(username);
+
 		if(MongodbController.login(username,requestUser.getPassword())) {
 			return new Result(200);
 		}

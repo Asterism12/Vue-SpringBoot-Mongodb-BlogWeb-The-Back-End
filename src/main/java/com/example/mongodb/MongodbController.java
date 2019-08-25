@@ -31,11 +31,11 @@ public class MongodbController {
 	
 	public static boolean login(String username,String password) {
 		Query query=new Query();
-		Criteria criteria=new Criteria();
-		criteria.and("username").is(username);
-		criteria.and("password").is(password);
-		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
-		if(ret!=null) return true;
+
+		query.addCriteria(new Criteria().where("username").is(username).and("password").is(password));
+		User ret=mongotemplate.findOne(query, User.class);
+
+		if(ret.toString().equals("")) return true;
 		else return false;
 	}
 	
