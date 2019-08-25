@@ -23,24 +23,26 @@ public class MongodbApplicationTests {
 		mongotemplate.insert(a);
 	}*/
 	
-	@org.junit.Test
+	/*@org.junit.Test
 	public void testdelete() {
-		User b=new User(30L,"1333","2051");
-		User c=new User(11l,"1234","2222");
+		User b=new User(30,"1333","2051");
 		mongotemplate.save(b);
-		mongotemplate.save(c);
 	}
 	
 	@org.junit.Test
 	public void delete() {
 		User c=new User(30L,"1227","0038");
 		mongotemplate.remove(c);
-	}
+	}*/
 	
 	@org.junit.Test
 	public void find() {
 		Query query=new Query();
-		query.addCriteria(Criteria.where("id").is(20L));
-		System.out.println(mongotemplate.find(query, User.class));
+		Criteria criteria=new Criteria();
+		criteria.and("username").is("1999");
+		criteria.and("password").is("0227");
+		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
+		if(ret!=null) ret.setUsername("1998");
+		mongotemplate.save(ret);
 	}
 }
