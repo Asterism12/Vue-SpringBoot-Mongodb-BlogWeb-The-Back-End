@@ -19,7 +19,8 @@ public class MongodbApplicationTests {
 	
 	/*@org.junit.Test
 	public void contextLoads() {
-		User a=new User(20L,"1999","0227");
+		User a=new User();
+		a.setId(27L);
 		mongotemplate.insert(a);
 	}*/
 	
@@ -38,11 +39,7 @@ public class MongodbApplicationTests {
 	@org.junit.Test
 	public void find() {
 		Query query=new Query();
-		Criteria criteria=new Criteria();
-		criteria.and("username").is("1999");
-		criteria.and("password").is("0227");
-		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
-		if(ret!=null) ret.setUsername("1998");
-		mongotemplate.save(ret);
+		long m=mongotemplate.count(query, User.class);
+		System.out.println(m);
 	}
 }

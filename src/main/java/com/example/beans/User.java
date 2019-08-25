@@ -9,6 +9,8 @@ import javax.validation.constraints.NotEmpty;
 public class User extends Entity{
 
     private String username;
+    @NotEmpty
+    @Length(min=6,max=12)
     private String password;
 
     public String getUsername() {
