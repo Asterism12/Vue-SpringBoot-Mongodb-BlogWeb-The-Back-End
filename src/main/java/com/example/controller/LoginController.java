@@ -20,6 +20,7 @@ public class LoginController {
 	private MongoTemplate mongotemplate;
 	
     @RequestMapping("/")
+	@ResponseBody
     public String Hello() {
         return "helloworld";
     }
