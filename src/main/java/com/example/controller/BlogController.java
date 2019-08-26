@@ -1,6 +1,7 @@
-/*package com.example.controller;
+package com.example.controller;
 
 import com.example.beans.Blog;
+import com.example.beans.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -19,9 +20,8 @@ public class BlogController {
 
     @CrossOrigin
     @GetMapping(value="/user")
-    @ResponseBody
     //展示文章内容
-    public Blog getBlog(@RequestBody int id) {
+    public Blog getBlog(int id) {
 
         Query query=new Query();
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
@@ -36,34 +36,36 @@ public class BlogController {
 
     //通过关键字检索
     @CrossOrigin
-    @GetMapping(value="/lists")
-    @ResponseBody
-    //搜索博文题目
-    public List<Blog> searchTitle(String keyword, Integer code)
+    @GetMapping(value="api/lists1")
+
+    //搜索作者
+    public List<User> searchAuthor(String keyword)
     {
-        Pattern pattern = Pattern.compile("^.*+keyword+.*$",Pattern.CASE_INSENSITIVE);//???
-        Query query = new Query(Criteria.where("title").regex(pattern).and("code").is(code));
-        List<Blog> resault = mongotemplate.find(query,Blog.class,"blog");
+        Pattern pattern = Pattern.compile("^.* + keyword + .*$",Pattern.CASE_INSENSITIVE);//???
+        Query query = new Query(Criteria.where("author").regex(pattern));
+        List<User> resault = mongotemplate.find(query,User.class,"user");
         return resault;
     }
 
 
 
     @CrossOrigin
-    @GetMapping(value="/lists")
-    @ResponseBody
-    //搜索博文内容
-    public List<Blog> searchContent(String keyword,Integer code)
+    @GetMapping(value="api/lists2")
+
+    //搜索博文内容或者题目
+    public List<Blog> searchBlog(String keyword,Integer code)
     {
         Pattern pattern = Pattern.compile("^.*+keyword+.*$",Pattern.CASE_INSENSITIVE);//???
-        Query query = new Query(Criteria.where("Content").regex(pattern).and("code").is(code));
+        Query query = new Query();
+        query.addCriteria(Criteria.where("Content").regex(pattern).and("code").is(code));
+        query.addCriteria(Criteria.where("title").regex(pattern).and("code").is(code));
         List<Blog> resault = mongotemplate.find(query,Blog.class,"blog");
         return resault;
     }
 
     @CrossOrigin
-    @GetMapping(value="/publish")
-    @ResponseBody
+    @GetMapping(value="api/publish")
+
     //发布博文
     public void publishBlog(String username,String title,String article)
     {
@@ -76,4 +78,4 @@ public class BlogController {
     }
 
 
-}*/
+}
