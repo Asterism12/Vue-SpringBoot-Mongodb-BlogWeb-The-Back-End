@@ -36,6 +36,8 @@ public class RegisterController {
         	ret=new User();
             ret.setPassword(password);
             ret.setUsername(username);
+          	Query query2=new Query();
+          	ret.setId(mongotemplate.count(query2, User.class)+1);
             mongotemplate.save(ret);
             return new Result(200);
         } else {
