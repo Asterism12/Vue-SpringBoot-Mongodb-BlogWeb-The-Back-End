@@ -3,19 +3,11 @@ package com.example.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.web.bind.annotation.RestController;
 
 @Document(collection="blog")
 public class Blog extends Entity{
-    private static MongoTemplate mongotemplate;
 
 	private String title;
 
