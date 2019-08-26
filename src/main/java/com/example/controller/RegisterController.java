@@ -33,7 +33,7 @@ public class RegisterController {
         User ret = mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)), User.class);
 
         if (ret == null) {
-        	ret=new User();
+            ret=new User();
             ret.setPassword(password);
             ret.setUsername(username);
             mongotemplate.save(ret);

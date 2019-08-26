@@ -16,7 +16,7 @@ import com.example.result.Result;
 public class LoginController {
 	@Autowired
 	private MongoTemplate mongotemplate;
-	
+
     @RequestMapping("/")
 	@ResponseBody
     public String Hello() {
