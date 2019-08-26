@@ -19,7 +19,7 @@ public class RegisterController {
     private static MongoTemplate mongotemplate;
 
     @CrossOrigin
-    @PostMapping(value = "api/register")
+    @PostMapping(value = "/api/register")
     @ResponseBody
     public Result register(@RequestBody User requestUser) {
 
