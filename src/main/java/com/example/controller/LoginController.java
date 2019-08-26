@@ -2,10 +2,7 @@ package com.example.controller;
 
 
 import com.example.mongodb.MongodbController;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -31,7 +28,7 @@ public class LoginController {
 	@CrossOrigin
 	@PostMapping(value="/login")
 	@ResponseBody
-	public Result login(User requestUser) {
+	public Result login(@RequestBody User requestUser) {
 		String username=requestUser.getUsername();
 		username=HtmlUtils.htmlEscape(username);
 		System.out.println(username);
