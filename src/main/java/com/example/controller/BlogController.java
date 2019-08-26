@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.beans.Blog;
 import com.example.beans.User;
+import com.example.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -16,12 +17,15 @@ import java.util.regex.Pattern;
 @Controller
 public class BlogController {
     @Autowired
-    private static MongoTemplate mongotemplate;
-
+    private MongoTemplate mongotemplate;
+    @RequestMapping("/")
+    public String Hello() {
+        return "helloworld";
+    }
     @CrossOrigin
     @GetMapping(value="/user")
     //展示文章内容
-    public Blog getBlog(int id) {
+    public Blog getBlog(long id) {
 
         Query query=new Query();
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
@@ -65,16 +69,21 @@ public class BlogController {
 
     @CrossOrigin
     @GetMapping(value="api/publish")
-
+    @ResponseBody
     //发布博文
-    public void publishBlog(String username,String title,String article)
+    public Result publishBlog(String username, String title, String article)
     {
+        System.out.println(username+" "+title+" "+article);
         Blog blog = new Blog();
+        Query query=new Query();
+        blog.setId(mongotemplate.count(query,Blog.class)+1);
         blog.setAuthor(username);
         blog.setContent(article);
         blog.setTitle(title);
         blog.setDate();
+        System.out.println(blog.getAuthor()+" "+blog.getTitle()+" "+blog.getContent());
         mongotemplate.save(blog);
+        return new Result(200);
     }
 
 

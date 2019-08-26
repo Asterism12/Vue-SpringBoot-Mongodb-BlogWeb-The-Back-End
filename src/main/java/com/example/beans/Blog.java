@@ -59,7 +59,7 @@ public class Blog extends Entity{
 		return title;
 	}
 
-	public String getLabel() {
+	public String getContent() {
 		return content;
 	}
 

@@ -7,6 +7,20 @@
 <body>
     <span>hello </span>
     <div>
+        <form action="/api/publish" method="get" >
+            <div>
+                <input type="text" name="username" placeholder="username" class="form-control"/>
+            </div>
+            <div>
+                <input type="text" name="title" placeholder="title" class="form-control"/>
+            </div>
+            <div>
+                <input type="text" name="article" placeholder="article" class="form-control"/>
+            </div>
+            <button>发布测试按钮</button>
+        </form>
+
+
         <form action="/api/login" method="post" >
             <div>
                 <input type="text" name="username" placeholder="username" class="form-control"/>
@@ -15,7 +29,17 @@
                 <input type="text" name="password" placeholder="password" class="form-control"/>
             </div>
 
-            <button>测试按钮</button>
+            <button>搜索测试按钮</button>
+        </form>
+        <form action="/api/login" method="post" >
+            <div>
+                <input type="text" name="username" placeholder="username" class="form-control"/>
+            </div>
+            <div>
+                <input type="text" name="password" placeholder="password" class="form-control"/>
+            </div>
+
+            <button>发布测试按钮</button>
         </form>
     </div>
 
