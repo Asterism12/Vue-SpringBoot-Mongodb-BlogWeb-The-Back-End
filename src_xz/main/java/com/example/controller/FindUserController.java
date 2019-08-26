@@ -1,12 +1,10 @@
 package com.example.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 import org.springframework.data.mongodb.core.query.Query;
@@ -15,11 +13,11 @@ import com.example.mongodb.MongodbController;
 
 @Controller
 public class FindUserController {
-
+    @Autowired
     private static MongoTemplate mongotemplate;
 
     @CrossOrigin
-    @PostMapping(value="/user")
+    @GetMapping(value="/user")
     @ResponseBody
 
     public User finduser(@RequestBody String username) {

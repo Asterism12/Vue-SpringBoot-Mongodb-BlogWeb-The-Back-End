@@ -1,13 +1,11 @@
 package com.example.controller;
 
 import com.example.beans.Blog;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 import org.springframework.data.mongodb.core.query.Query;
@@ -19,11 +17,11 @@ import java.util.regex.Pattern;
 
 @Controller
 public class BlogController {
-
+    @Autowired
     private static MongoTemplate mongotemplate;
 
     @CrossOrigin
-    @PostMapping(value="/user")
+    @GetMapping(value="/user")
     @ResponseBody
     //展示文章内容
     public Blog getBlog(@RequestBody int id) {
@@ -41,7 +39,7 @@ public class BlogController {
 
     //通过关键字检索
     @CrossOrigin
-    @PostMapping(value="/lists")
+    @GetMapping(value="/lists")
     @ResponseBody
     //搜索博文题目
     public List<Blog> searchTitle(String keyword, Integer code)
@@ -52,8 +50,10 @@ public class BlogController {
         return resault;
     }
 
+
+
     @CrossOrigin
-    @PostMapping(value="/lists")
+    @GetMapping(value="/lists")
     @ResponseBody
     //搜索博文内容
     public List<Blog> searchContent(String keyword,Integer code)
@@ -65,7 +65,7 @@ public class BlogController {
     }
 
     @CrossOrigin
-    @PostMapping(value="/publish")
+    @GetMapping(value="/publish")
     @ResponseBody
     //发布博文
     public void publishBlog(String username,String title,String article)
