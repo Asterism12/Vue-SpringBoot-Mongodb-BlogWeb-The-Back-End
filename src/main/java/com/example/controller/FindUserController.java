@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.example.mongodb.MongodbController;
 
 @Controller
 public class FindUserController {
