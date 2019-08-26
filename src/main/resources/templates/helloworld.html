@@ -17,29 +17,28 @@
             <div>
                 <input type="text" name="article" placeholder="article" class="form-control"/>
             </div>
+            <div>
+                <input type="text" name="code" placeholder="code" class="form-control"/>
+            </div>
             <button>发布测试按钮</button>
         </form>
 
 
-        <form action="/api/login" method="post" >
+        <form action="api/lists1" method="get" >
             <div>
-                <input type="text" name="username" placeholder="username" class="form-control"/>
+                <input type="text" name="keyword" placeholder="keyword" class="form-control"/>
             </div>
-            <div>
-                <input type="text" name="password" placeholder="password" class="form-control"/>
-            </div>
-
-            <button>搜索测试按钮</button>
+            <button>搜索作者按钮</button>
         </form>
-        <form action="/api/login" method="post" >
+        <form action="api/lists2" method="get" >
             <div>
-                <input type="text" name="username" placeholder="username" class="form-control"/>
+                <input type="text" name="keyword" placeholder="keyword" class="form-control"/>
             </div>
             <div>
-                <input type="text" name="password" placeholder="password" class="form-control"/>
+                <input type="text" name="code" placeholder="code" class="form-control"/>
             </div>
 
-            <button>发布测试按钮</button>
+            <button>搜索博文按钮</button>
         </form>
     </div>
 

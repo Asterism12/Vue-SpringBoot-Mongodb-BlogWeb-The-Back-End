@@ -39,15 +39,19 @@ public class BlogController {
     }
 
     //通过关键字检索
+
+
     @CrossOrigin
     @GetMapping(value="api/lists1")
-
+    @ResponseBody
     //搜索作者
-    public List<User> searchAuthor(String keyword)
+    public List<Blog> searchAuthor(String keyword)
     {
-        Pattern pattern = Pattern.compile("^.* + keyword + .*$",Pattern.CASE_INSENSITIVE);//???
+        System.out.println(keyword);
+        Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);//???
         Query query = new Query(Criteria.where("author").regex(pattern));
-        List<User> resault = mongotemplate.find(query,User.class,"user");
+        List<Blog> resault = mongotemplate.find(query,Blog.class,"blog");
+        for (int i=0;i<resault.size();i++)System.out.println(i+" "+resault.get(i).getTitle()+" "+resault.get(i).getContent()+" "+resault.get(i).getAuthor());
         return resault;
     }
 
@@ -55,15 +59,17 @@ public class BlogController {
 
     @CrossOrigin
     @GetMapping(value="api/lists2")
-
+    @ResponseBody
     //搜索博文内容或者题目
     public List<Blog> searchBlog(String keyword,Integer code)
     {
+        System.out.println(keyword+" "+code);
         Pattern pattern = Pattern.compile("^.*+keyword+.*$",Pattern.CASE_INSENSITIVE);//???
-        Query query = new Query();
-        query.addCriteria(Criteria.where("Content").regex(pattern).and("code").is(code));
-        query.addCriteria(Criteria.where("title").regex(pattern).and("code").is(code));
+        Criteria criteria = new Criteria();
+        criteria.orOperator(Criteria.where("title").regex(pattern).and("code").is(code),Criteria.where("content").regex(pattern).and("code").is(code));
+        Query query = new Query(criteria);
         List<Blog> resault = mongotemplate.find(query,Blog.class,"blog");
+        for (int i=0;i<resault.size();i++)System.out.println(resault.get(i).getTitle()+" "+resault.get(i).getContent());
         return resault;
     }
 
@@ -71,17 +77,18 @@ public class BlogController {
     @GetMapping(value="api/publish")
     @ResponseBody
     //发布博文
-    public Result publishBlog(String username, String title, String article)
+    public Result publishBlog(String username, String title, String article, Integer code)
     {
         System.out.println(username+" "+title+" "+article);
         Blog blog = new Blog();
         Query query=new Query();
         blog.setId(mongotemplate.count(query,Blog.class)+1);
-        blog.setAuthor(username);
-        blog.setContent(article);
         blog.setTitle(title);
+        blog.setContent(article);
+        blog.setAuthor(username);
+        blog.setCode(code);
         blog.setDate();
-        System.out.println(blog.getAuthor()+" "+blog.getTitle()+" "+blog.getContent());
+        System.out.println(blog.getAuthor()+" "+blog.getTitle()+" "+blog.getContent()+" "+blog.getCode());
         mongotemplate.save(blog);
         return new Result(200);
     }
