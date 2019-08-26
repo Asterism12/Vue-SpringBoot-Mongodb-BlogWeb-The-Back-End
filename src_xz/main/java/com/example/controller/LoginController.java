@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -13,23 +13,34 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.example.mongodb.MongodbController;
 import com.example.result.Result;
-
+import com.example.beans.User;
 //与前端交互，从api/login接受前端信息，使用Result类返回信息
 
 @Controller
 public class LoginController {
+	@Autowired
 	private static MongoTemplate mongotemplate;
 	@CrossOrigin
 	@PostMapping(value="/login")
 	@ResponseBody
 	public Result login(@RequestBody User requestUser) {
 		
-		String username=requestUser.getName();
+		String username=requestUser.getUsername();
 		username=HtmlUtils.htmlEscape(username);
-		
-		if(login(username,requestUser.getPassword())) {
+
+		String password = requestUser.getPassword();
+		password = HtmlUtils.htmlEscape(password);
+
+		Query query=new Query();
+		Criteria criteria=new Criteria();
+		criteria.and("username").is(username);
+		criteria.and("password").is(password);
+		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
+
+		if(ret!=null) {
 			return new Result(200);
 		}
+
 		else {
 			String message="账号密码错误";
 			System.out.println("test");
@@ -37,15 +48,5 @@ public class LoginController {
 		}
 	}
 
-	//登录
-
-	public static boolean login(String username,String password) {
-		Query query=new Query();
-		Criteria criteria=new Criteria();
-		criteria.and("username").is(username);
-		criteria.and("password").is(password);
-		com.example.beans.User ret=mongotemplate.findOne(query.addCriteria(criteria), com.example.beans.User.class);
-		if(ret!=null) return true;
-		else return false;
-	}
+	
 }
