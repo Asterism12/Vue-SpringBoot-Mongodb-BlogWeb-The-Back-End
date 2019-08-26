@@ -3,12 +3,11 @@ package com.example.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
-import org.springframework.data.mongodb.core.MongoTemplate;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="blog")
 public class Blog extends Entity{
-    private static MongoTemplate mongotemplate;
 
 	private String title;
 

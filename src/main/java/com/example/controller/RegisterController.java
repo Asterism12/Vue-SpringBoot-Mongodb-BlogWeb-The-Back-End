@@ -19,7 +19,7 @@ public class RegisterController {
     private static MongoTemplate mongotemplate;
 
     @CrossOrigin
-    @PostMapping(value = "/register")
+    @PostMapping(value = "api/register")
     @ResponseBody
     public Result register(@RequestBody User requestUser) {
 
@@ -33,6 +33,7 @@ public class RegisterController {
         User ret = mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)), User.class);
 
         if (ret == null) {
+        	ret=new User();
             ret.setPassword(password);
             ret.setUsername(username);
             mongotemplate.save(ret);
