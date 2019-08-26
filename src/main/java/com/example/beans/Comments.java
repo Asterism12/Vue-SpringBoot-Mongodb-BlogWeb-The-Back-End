@@ -15,6 +15,8 @@ public class Comments extends Entity{
 
     public void setDate() { this.date = new Date();}
 
+ 	public void setUsername(String username){this.username=username;} 
+  
     public String getContent() { return content; }
 
     public String getUsername(){return username;}

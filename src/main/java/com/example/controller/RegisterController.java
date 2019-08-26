@@ -12,14 +12,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 
 import com.example.result.Result;
-import com.example.beans.*;
+import com.example.beans.User;
 @Controller
 public class RegisterController {
     @Autowired
-    private static MongoTemplate mongotemplate;
+    private MongoTemplate mongotemplate;
 
     @CrossOrigin
-    @PostMapping(value = "api/register")
+    @PostMapping(value = "/api/register")
     @ResponseBody
     public Result register(@RequestBody User requestUser) {
 
@@ -36,6 +36,8 @@ public class RegisterController {
             ret=new User();
             ret.setPassword(password);
             ret.setUsername(username);
+          	Query query2=new Query();
+          	ret.setId(mongotemplate.count(query2, User.class)+1);
             mongotemplate.save(ret);
             return new Result(200);
         } else {
