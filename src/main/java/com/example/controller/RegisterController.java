@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
 
-import com.example.mongodb.MongodbController;
 import com.example.result.Result;
 import com.example.beans.*;
 @Controller
