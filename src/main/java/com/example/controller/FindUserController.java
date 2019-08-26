@@ -15,8 +15,8 @@ public class FindUserController {
     private static MongoTemplate mongotemplate;
 
     @CrossOrigin
-    @GetMapping(value="/user")
-    @ResponseBody
+    @GetMapping(value="api/user")
+
 
     public User finduser(@RequestBody String username) {
 
