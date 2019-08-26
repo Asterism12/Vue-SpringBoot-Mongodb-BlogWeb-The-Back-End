@@ -16,8 +16,8 @@ public class CommentsController {
     private static MongoTemplate mongotemplate;
 
     @CrossOrigin
-    @GetMapping(value="/comment")
-    @ResponseBody
+    @GetMapping(value="api/comment")
+
     //发布评论
     public void publishComment(int id,String username,String comment)
     {
