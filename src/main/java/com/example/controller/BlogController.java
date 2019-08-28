@@ -58,18 +58,20 @@ public class BlogController {
 
 
     @CrossOrigin
-    @GetMapping(value="api/lists2")
+    @GetMapping(value="api/lists")
     @ResponseBody
     //搜索博文内容或者题目
-    public List<Blog> searchBlog(String keyword,Integer code)
+    public List<Blog> searchBlog(String keyword,int code)
     {
         System.out.println(keyword+" "+code);
-        Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);//???
+        Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
         Criteria criteria = new Criteria();
-        criteria.orOperator(Criteria.where("title").regex(pattern).and("code").is(code),Criteria.where("content").regex(pattern).and("code").is(code));
+        if(code!=0) {
+        	criteria.orOperator(Criteria.where("title").regex(pattern).and("code").is(code),Criteria.where("content").regex(pattern).and("code").is(code));
+        }
+        else criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
         Query query = new Query(criteria);
-        List<Blog> resault = mongotemplate.find(query,Blog.class,"blog");
-        for (int i=0;i<resault.size();i++)System.out.println(resault.get(i).getTitle()+" "+resault.get(i).getContent());
+        List<Blog> resault = mongotemplate.find(query,Blog.class);
         return resault;
     }
 
