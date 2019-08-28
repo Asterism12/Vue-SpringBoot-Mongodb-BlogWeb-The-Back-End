@@ -22,7 +22,7 @@ public class RegisterController {
     @PostMapping(value = "/api/register")
     @ResponseBody
     public Result register(@RequestBody User requestUser) {
-
+		return new Result(200);
         String username = requestUser.getUsername();
         username = HtmlUtils.htmlEscape(username);
 
