@@ -1,9 +1,10 @@
 package com.example.beans;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 
-import org.bson.internal.Base64;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="user")
@@ -52,11 +53,7 @@ public class User extends Entity{
     }
     
     public static String encode(String str) {
-    	return Base64.encode(str.getBytes());
-    }
-    
-    public static String decode(String str) {
-    	return new String(Base64.decode(str));
+    	return Base64.getEncoder().encodeToString(str.getBytes());
     }
     
     public Date getRegistertime() {

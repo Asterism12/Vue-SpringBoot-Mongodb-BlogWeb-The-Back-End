@@ -26,7 +26,7 @@ public class Blog extends Entity{
 
 	private Integer commentCount;
 
-	private Integer code;//文章分类
+	private int code;//文章分类
 
 	private String Abstract;
 
@@ -52,7 +52,7 @@ public class Blog extends Entity{
 
 	public void setCommentCount(){this.commentCount++;}
 
-	public void setCode(Integer code){this.code=code;}
+	public void setCode(int code){this.code=code;}
 
 	public void setAbstract(String Abstract){this.Abstract=Abstract;}
 
@@ -76,7 +76,7 @@ public class Blog extends Entity{
 
 	public Integer getCommentCount(){return commentCount;}
 
-	public Integer getCode(){return code;}
+	public int getCode(){return code;}
 
 	public String getAbstract(){return Abstract;}
 

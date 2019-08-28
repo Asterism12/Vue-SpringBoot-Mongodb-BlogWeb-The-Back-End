@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.example.beans.Blog;
 import com.example.beans.User;
 
 
@@ -38,6 +39,11 @@ public class MongodbApplicationTests {
 	
 	@org.junit.Test
 	public void find() {
-		mongotemplate.dropCollection(User.class);
+		User ret=new User();
+        ret.setPassword("0227");
+        ret.setUsername("1998");
+        ret.setId(mongotemplate.count(new Query(), User.class)+1);
+        System.out.println(ret);
+        mongotemplate.save(ret);
 	}
 }
