@@ -23,25 +23,6 @@ public class RegisterController {
     @ResponseBody
     public Result register(@RequestBody User requestUser) {
 		return new Result(200);
-        String username = requestUser.getUsername();
-        username = HtmlUtils.htmlEscape(username);
-
-        String password = requestUser.getPassword();
-        password = HtmlUtils.htmlEscape(password);
-
-        Query query = new Query();
-        User ret = mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)), User.class);
-
-        if (ret == null) {
-        	ret=new User();
-            ret.setPassword(password);
-            ret.setUsername(username);
-            ret.setId(mongotemplate.count(new Query(), User.class)+1);
-            mongotemplate.save(ret);
-            return new Result(200);
-        } else {
-            return new Result(400);
-        }
-
+        
     }
 }
