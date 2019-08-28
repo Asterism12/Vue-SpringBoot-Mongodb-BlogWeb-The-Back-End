@@ -1,5 +1,6 @@
 package com.example.beans;
 
+import org.bson.internal.Base64;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="user")
@@ -22,6 +23,14 @@ public class User extends Entity{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    public static String encode(String str) {
+    	return Base64.encode(str.getBytes());
+    }
+    
+    public static String decode(String str) {
+    	return new String(Base64.decode(str));
     }
     
     public String toString() {

@@ -17,7 +17,11 @@ public class LoginController {
 	@Autowired
 	private MongoTemplate mongotemplate;
 
-
+    @RequestMapping("/")
+	@ResponseBody
+    public String Hello() {
+        return "helloworld";
+    }
 
 
 	@CrossOrigin
@@ -30,7 +34,7 @@ public class LoginController {
 		Query query=new Query();
 		Criteria criteria=new Criteria();
 		criteria.and("username").is(username);
-		criteria.and("password").is(requestUser.getPassword());
+		criteria.and("password").is(User.encode(requestUser.getPassword()));
 		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
 		if(ret!=null) return new Result(200);
 		else {
