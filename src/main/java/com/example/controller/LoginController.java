@@ -17,10 +17,10 @@ public class LoginController {
 	@Autowired
 	private MongoTemplate mongotemplate;
 
-    @RequestMapping("/")
+    @RequestMapping("/hh")
 	@ResponseBody
-    public String Hello() {
-        return "helloworld";
+    public void Hello() {
+        mongotemplate.dropCollection(User.class);
     }
 
 

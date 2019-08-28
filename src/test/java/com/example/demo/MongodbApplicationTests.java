@@ -38,8 +38,6 @@ public class MongodbApplicationTests {
 	
 	@org.junit.Test
 	public void find() {
-		Query query=new Query();
-		long m=mongotemplate.count(query, User.class);
-		System.out.println(m);
+		mongotemplate.dropCollection(User.class);
 	}
 }

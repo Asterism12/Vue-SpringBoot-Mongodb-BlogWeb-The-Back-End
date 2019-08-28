@@ -27,6 +27,9 @@ public class User extends Entity{
 	public void addBlog(Blog blog) {
 		blogs.add(blog);
 	}
+	public void deleteBlog(Blog blog) {
+		blogs.remove(blog);
+	}
     
     public User() {
     	this.registertime=new Date();

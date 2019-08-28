@@ -90,8 +90,14 @@ public class BlogController {
         blog.setCode(code);
         blog.setDate();
         System.out.println(blog.getAuthor()+" "+blog.getTitle()+" "+blog.getContent()+" "+blog.getCode());
-        mongotemplate.save(blog);
-        return new Result(200);
+        User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
+        if(ret==null ) return new Result(400);
+        else {
+        	ret.addBlog(blog);
+        	mongotemplate.save(ret);
+        	mongotemplate.save(blog);
+        	return new Result(200);
+        }
     }
 
 
@@ -102,8 +108,12 @@ public class BlogController {
     {
         Query query = new Query();
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
+        
         if(ret != null)
         {
+        	String username=ret.getAuthor();
+            User ret2=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)), User.class);
+            ret2.deleteBlog(ret);
             ret.setTitle(null);
             ret.setContent(null);
             ret.setAbstract(null);
@@ -130,10 +140,15 @@ public class BlogController {
     {
         Query query = new Query();
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
+        
         if(ret != null)
         {
+        	String username=ret.getAuthor();
+            User user=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)), User.class);
+            user.deleteBlog(ret);
             ret.setContent(content);
             ret.setTitle(title);
+            user.addBlog(ret);
             return new Result(200);
         }
         else

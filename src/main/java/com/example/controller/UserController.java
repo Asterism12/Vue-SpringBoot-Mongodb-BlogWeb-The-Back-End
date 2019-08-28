@@ -22,7 +22,7 @@ public class UserController {
 	private MongoTemplate mongotemplate;
 	
 	@CrossOrigin
-	@PostMapping("")
+	@PostMapping("/hhh")
 	@ResponseBody
 	public Result changeusername(String username1,String username2,String password) {
 		Query query=new Query();
@@ -41,7 +41,7 @@ public class UserController {
 	}
 	
 	@CrossOrigin
-	@PostMapping("/")
+	@PostMapping("/mm")
 	@ResponseBody
 	public Result changepassword(String username,String password1,String password2) {
 		Query query=new Query();
@@ -60,7 +60,7 @@ public class UserController {
 	}
 	
 	@CrossOrigin
-	@PostMapping("/")
+	@PostMapping("/t")
 	@ResponseBody
 	public Result attention(String username) {
 		User ret=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)),User.class);
