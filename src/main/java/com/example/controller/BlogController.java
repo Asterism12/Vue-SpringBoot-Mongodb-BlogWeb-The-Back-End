@@ -64,7 +64,7 @@ public class BlogController {
     @GetMapping(value="api/lists")
     @ResponseBody
     //搜索博文内容或者题目
-    public List<Blog> searchBlog(@RequestParam String keyword, @RequestParam int code)
+    public List<Blog> searchBlog(@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
     {
         System.out.println(keyword+" "+code);
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
