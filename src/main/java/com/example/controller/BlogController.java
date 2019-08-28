@@ -24,17 +24,20 @@ public class BlogController {
     }
     @CrossOrigin
     @GetMapping(value="/user")
+    @ResponseBody
     //展示文章内容
-    public Blog getBlog(long id) {
-
+    public Result getBlog(long id) {
+        System.out.println(id);
         Query query=new Query();
-        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
+        Criteria criteria=new Criteria();
+
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("Id").is(id)),Blog.class);
         if(ret!=null) {
-            return ret;
+            return new Result(200);
         }
         else {
             System.out.println("没有找到");
-            return null;
+            return new Result((400));
         }
     }
 
