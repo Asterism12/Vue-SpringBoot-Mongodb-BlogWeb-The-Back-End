@@ -64,7 +64,7 @@ public class BlogController {
     @GetMapping(value="api/lists")
     @ResponseBody
     //搜索博文内容或者题目
-    public List<Blog> searchBlog(@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
+    public Blog[] searchBlog(@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
     {
         System.out.println(keyword+" "+code);
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
@@ -75,7 +75,11 @@ public class BlogController {
         else criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
         Query query = new Query(criteria);
         List<Blog> resault = mongotemplate.find(query,Blog.class);
-        return resault;
+        Blog[] blogs=new Blog[resault.size()];
+        for(int i=0;i<resault.size();i++) {
+        	blogs[i]=resault.get(i);
+        }
+        return blogs;
     }
 
 
