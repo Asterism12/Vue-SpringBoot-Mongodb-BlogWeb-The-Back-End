@@ -4,7 +4,6 @@ import com.example.beans.Blog;
 import com.example.beans.User;
 import com.example.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.web.bind.annotation.*;
