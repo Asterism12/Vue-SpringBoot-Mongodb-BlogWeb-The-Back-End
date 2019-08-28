@@ -58,7 +58,7 @@ public class BlogController {
 
 
     @CrossOrigin
-    @GetMapping(value="api/lists2")
+    @GetMapping(value="api/lists")
     @ResponseBody
     //搜索博文内容或者题目
     public List<Blog> searchBlog(String keyword,Integer code)
