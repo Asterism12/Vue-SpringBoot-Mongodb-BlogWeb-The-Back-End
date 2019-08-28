@@ -64,7 +64,7 @@ public class BlogController {
     public List<Blog> searchBlog(String keyword,Integer code)
     {
         System.out.println(keyword+" "+code);
-        Pattern pattern = Pattern.compile("^.*+keyword+.*$",Pattern.CASE_INSENSITIVE);//???
+        Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);//???
         Criteria criteria = new Criteria();
         criteria.orOperator(Criteria.where("title").regex(pattern).and("code").is(code),Criteria.where("content").regex(pattern).and("code").is(code));
         Query query = new Query(criteria);
@@ -72,6 +72,7 @@ public class BlogController {
         for (int i=0;i<resault.size();i++)System.out.println(resault.get(i).getTitle()+" "+resault.get(i).getContent());
         return resault;
     }
+
 
     @CrossOrigin
     @GetMapping(value="api/publish")
@@ -94,4 +95,50 @@ public class BlogController {
     }
 
 
+    @CrossOrigin
+    @GetMapping(value="api/blogdelete")
+    //删除博文
+    public Result deleteBlog(long id)
+    {
+        Query query = new Query();
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
+        if(ret != null)
+        {
+            ret.setTitle(null);
+            ret.setContent(null);
+            ret.setAbstract(null);
+            ret.setAuthor(null);
+            ret.setCode(0);
+            ret.setCommentCount(0);
+            ret.setImgURL(null);
+            ret.setLikeCount(0);
+            ret.setViewCount(0);
+            ret.getList().clear();
+            return new Result(200);
+        }
+        else
+        {
+            return new Result(400);
+        }
+    }
+
+
+    @CrossOrigin
+    @GetMapping(value="api/blogmodify")
+    //修改文章
+    public Result editBlog(long id,String title,String content)
+    {
+        Query query = new Query();
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
+        if(ret != null)
+        {
+            ret.setContent(content);
+            ret.setTitle(title);
+            return new Result(200);
+        }
+        else
+        {
+            return new Result(400);
+        }
+    }
 }

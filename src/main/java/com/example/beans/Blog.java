@@ -3,6 +3,7 @@ package com.example.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -19,19 +20,19 @@ public class Blog extends Entity{
 
 	private Date date;
 
-    private Integer viewCount;
+	private Integer viewCount;
 
-    private Integer likeCount;
+	private Integer likeCount;
 
-    private Integer commentCount;
+	private Integer commentCount;
 
-    private Integer code;//文章分类
+	private Integer code;//文章分类
 
 	private String Abstract;
 
-    private ArrayList<Comments> commentsArrayList = new ArrayList<Comments>();
+	private ArrayList<Comments> commentsArrayList = new ArrayList<Comments>();
 
-    public void setTitle(String title) {
+	public void setTitle(String title) {
 		this.title=title;
 	}
 
@@ -41,7 +42,7 @@ public class Blog extends Entity{
 
 	public void setImgURL(String imgURL){this.imgURL=imgURL;}
 
-    public void setDate() { this.date = new Date();}
+	public void setDate() { this.date = new Date();}
 
 	public void setViewCount(Integer viewCount){this.viewCount=viewCount;}
 
@@ -79,17 +80,19 @@ public class Blog extends Entity{
 
 	public String getAbstract(){return Abstract;}
 
+	public ArrayList<Comments> getList(){return commentsArrayList;}
+
 	//发评论
-    public void writeComments(Comments comments)
-    {
-        commentsArrayList.add(comments);
-        comments.setDate();
-    }
-    //删评论
-    public void deleteComments(Comments comments)
-    {
-        commentsArrayList.remove(comments);
-    }
+	public void writeComments(Comments comments)
+	{
+		commentsArrayList.add(comments);
+		comments.setDate();
+	}
+	//删评论
+	public void deleteComments(Comments comments)
+	{
+		commentsArrayList.remove(comments);
+	}
 
    /* //搜索博文题目
     public List<Blog> searchTitle(String keyword,Integer code)
