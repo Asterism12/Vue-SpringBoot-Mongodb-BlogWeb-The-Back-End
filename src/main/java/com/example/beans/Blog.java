@@ -44,13 +44,13 @@ public class Blog extends Entity{
 
 	public void setDate() { this.date = new Date();}
 
-	public void setViewCount(Integer viewCount){this.viewCount=viewCount;}
+	public void setViewCount(){this.viewCount++;}
 
 	public void setAuthor(String author){this.author=author;}
 
-	public void setLikeCount(Integer likeCount){this.likeCount=likeCount;}
+	public void setLikeCount(){this.likeCount++;}
 
-	public void setCommentCount(Integer commentCount){this.commentCount=commentCount;}
+	public void setCommentCount(){this.commentCount++;}
 
 	public void setCode(Integer code){this.code=code;}
 

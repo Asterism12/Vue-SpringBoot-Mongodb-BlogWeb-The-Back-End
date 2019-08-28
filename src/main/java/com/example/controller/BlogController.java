@@ -119,10 +119,7 @@ public class BlogController {
             ret.setAbstract(null);
             ret.setAuthor(null);
             ret.setCode(0);
-            ret.setCommentCount(0);
             ret.setImgURL(null);
-            ret.setLikeCount(0);
-            ret.setViewCount(0);
             ret.getList().clear();
             return new Result(200);
         }
