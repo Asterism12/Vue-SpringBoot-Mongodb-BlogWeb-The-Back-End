@@ -16,9 +16,8 @@ public class FindUserController {
 
     @CrossOrigin
     @GetMapping(value="api/user")
-
-
-    public User finduser(@RequestBody String username) {
+    @ResponseBody
+    public User finduser(String username) {
 
         username=HtmlUtils.htmlEscape(username);
         Query query=new Query();
@@ -27,7 +26,6 @@ public class FindUserController {
             return ret;
         }
         else {
-            System.out.println("没有找到");
             return null;
         }
     }
