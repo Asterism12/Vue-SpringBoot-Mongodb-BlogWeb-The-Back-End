@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -15,7 +13,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.beans.Blog;
-import com.example.beans.Comments;
 import com.example.beans.User;
 import com.mongodb.WriteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -27,14 +24,13 @@ public class MongodbApplicationTests {
 	@Autowired
 	private MongoTemplate mongotemplate;
 	
-	@org.junit.Test
+	/*@org.junit.Test
 	public void contextLoads() {
-		Pattern pattern = Pattern.compile("^.*"+"string"+".*$",Pattern.CASE_INSENSITIVE);
-        Criteria criteria = new Criteria();
-        Query query = new Query(criteria);
-        List<Blog> resault = mongotemplate.find(query,Blog.class);
-        System.out.println(resault.size());
-	}
+		Blog blog=new Blog();
+		blog.setId(3);
+		blog.setbid();
+		mongotemplate.save(blog);
+	}*/
 	
 	/*@org.junit.Test
 	public void testdelete() {
@@ -50,22 +46,10 @@ public class MongodbApplicationTests {
 	
 	@org.junit.Test
 	public void find() {
-		Blog b=new Blog();
-		b.setId(0);
-		b.setbid();
-		b.setCode(1);
-		b.setAuthor("ljx");
-		b.setContent("There was an unexpected error (type=Internal Server Error, status=500).");
-		b.setTitle("the first blog");
-		Comments a=new Comments();
-		a.setContent("good work");
-		a.setDate();
-		a.setId(1);
-		mongotemplate.save(a);
+		Query query=new Query();
+		query.addCriteria(Criteria.where("_id").is(2L));
+		Update update=Update.update("bid", 2L);
+		UpdateResult upsert=mongotemplate.updateFirst(query, update, Blog.class);
 		
-		ArrayList<Comments> c=new ArrayList<Comments>();
-		c.add(a);
-		b.setCommentsList(c);
-		mongotemplate.save(b);
 	}
 }
