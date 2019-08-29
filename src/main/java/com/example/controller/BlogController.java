@@ -23,21 +23,21 @@ public class BlogController {
         return "helloworld";
     }
     @CrossOrigin
-    @GetMapping(value="/user")
+    @GetMapping(value="/api/blogs")
     @ResponseBody
     //展示文章内容
-    public Result getBlog(long id) {
+    public Blog getBlog(@RequestParam(value="bid") long id) {
         System.out.println(id);
         Query query=new Query();
         Criteria criteria=new Criteria();
 
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
         if(ret!=null) {
-            return new Result(200);
+            return ret;
         }
         else {
             System.out.println("没有找到");
-            return new Result((400));
+            return ret;
         }
     }
 
