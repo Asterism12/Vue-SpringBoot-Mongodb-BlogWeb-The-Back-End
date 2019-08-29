@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -14,7 +13,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.beans.Blog;
-import com.example.beans.Comments;
 import com.example.beans.User;
 import com.mongodb.WriteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -49,15 +47,8 @@ public class MongodbApplicationTests {
 	@org.junit.Test
 	public void find() {
 		Query query=new Query();
-		query.addCriteria(Criteria.where("_id").is(1L));
-		ArrayList<Comments> a=new ArrayList<Comments>();
-		Comments b=new Comments();
-		b.setContent("correct");
-		b.setDate();
-		b.setId(0);
-		mongotemplate.save(b);
-		a.add(b);
-		Update update=Update.update("commentsArrayList", a);
+		query.addCriteria(Criteria.where("_id").is(2L));
+		Update update=Update.update("bid", 2L);
 		UpdateResult upsert=mongotemplate.updateFirst(query, update, Blog.class);
 		
 	}

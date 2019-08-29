@@ -31,12 +31,12 @@ public class UserController {
 		criteria.and("password").is(User.encode(password));
 		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
 		if(ret==null) {
-			return new Result(400);
+			return new Result(400,"用户名或原密码错误");
 		}
 		else {
 			ret.setUsername(username2);
 			mongotemplate.save(ret);
-			return new Result(200);
+			return new Result(200,"修改成功");
 		}
 	}
 	
@@ -50,12 +50,12 @@ public class UserController {
 		criteria.and("password").is(User.encode(password1));
 		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
 		if(ret==null) {
-			return new Result(400);
+			return new Result(400,"用户名或原密码错误");
 		}
 		else {
 			ret.setPassword(password2);
 			mongotemplate.save(ret);
-			return new Result(200);
+			return new Result(200,"修改成功");
 		}
 	}
 	
@@ -64,11 +64,11 @@ public class UserController {
 	@ResponseBody
 	public Result attention(String username) {
 		User ret=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)),User.class);
-		if(ret==null) return new Result(400);
+		if(ret==null) return new Result(400,"用户不存在");
 		else {
 			ret.setattention();
 			mongotemplate.save(ret);
-			return new Result(200);
+			return new Result(200,"关注成功");
 		}
 	}
 	

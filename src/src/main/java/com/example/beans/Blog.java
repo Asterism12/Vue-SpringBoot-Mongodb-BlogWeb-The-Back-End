@@ -2,15 +2,13 @@ package com.example.beans;
 
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 @Document(collection="blog")
 public class Blog extends Entity{
 	private long bid;
-	
 	private String title;
 
 	private String content;
@@ -19,7 +17,7 @@ public class Blog extends Entity{
 
 	private String author;
 
-	private Date date;
+	private String date;
 
 	private Integer viewCount;
 
@@ -31,8 +29,7 @@ public class Blog extends Entity{
 
 	private String Abstract;
 
-	private List<Comments> commentsArrayList = new ArrayList<Comments>();
-	
+	private ArrayList<Comments> commentsArrayList = new ArrayList<Comments>();
 	public void setbid() {
 		this.bid=super.getId();
 	}
@@ -40,11 +37,10 @@ public class Blog extends Entity{
 	public long getbid() {
 		return this.bid;
 	}
-	
 	public void setTitle(String title) {
 		this.title=title;
 	}
-	
+
 	public void setContent(String content) {
       	if(content==null)
           this.Abstract=null;
@@ -54,7 +50,9 @@ public class Blog extends Entity{
 
 	public void setImgURL(String imgURL){this.imgURL=imgURL;}
 
-	public void setDate() { this.date = new Date();}
+	public void setDate(String date) {
+		this.date = date;
+	}
 
 	public void setViewCount(){this.viewCount++;}
 
@@ -76,7 +74,7 @@ public class Blog extends Entity{
 
 	public String getAuthor(){return author;}
 
-	public Date getDate(){return date;}
+	public String getDate(){return date;}
 
 	public String getImgURL(){return imgURL;}
 
@@ -90,7 +88,7 @@ public class Blog extends Entity{
 
 	public String getAbstract(){return Abstract;}
 
-	public List<Comments> getList(){return commentsArrayList;}
+	public ArrayList<Comments> getList(){return commentsArrayList;}
 
 	//发评论
 	public void writeComments(Comments comments)

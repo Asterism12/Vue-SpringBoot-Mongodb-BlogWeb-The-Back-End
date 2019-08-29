@@ -32,9 +32,9 @@ public class CommentsController {
             comments.setContent(comment);
             comments.setUsername(username);
             blog.writeComments(comments);
-            return new Result(200);
+            return new Result(200,"发布成功");
         }
-        else return new Result(400);
+        else return new Result(400,"发布失败");
     }
 
 }

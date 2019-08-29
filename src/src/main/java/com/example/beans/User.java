@@ -5,12 +5,18 @@ import java.util.Base64;
 import java.util.Date;
 
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import javax.validation.constraints.NotEmpty;
 
 @Document(collection="user")
 public class User extends Entity{
-
+    @NotEmpty
+    @Length(min=6,max=12)
     private String username;
+    @NotEmpty
+    @Length(min=6,max=12)
     private String password;
     private Date registertime;
     private int attention;
