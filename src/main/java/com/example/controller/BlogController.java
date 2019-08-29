@@ -100,12 +100,12 @@ public class BlogController {
         blog.setDate();
         System.out.println(blog.getAuthor()+" "+blog.getTitle()+" "+blog.getContent()+" "+blog.getCode());
         User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
-        if(ret==null ) return new Result(400,"发布失败");
+        if(ret==null ) return new Result(400);
         else {
         	ret.addBlog(blog);
         	mongotemplate.save(ret);
         	mongotemplate.save(blog);
-        	return new Result(200,"发布成功");
+        	return new Result(200);
         }
     }
 
@@ -129,11 +129,11 @@ public class BlogController {
             ret.setCode(0);
             ret.setImgURL(null);
             ret.getList().clear();
-            return new Result(200,"删除成功");
+            return new Result(200);
         }
         else
         {
-            return new Result(400,"删除失败");
+            return new Result(400);
         }
     }
 
@@ -154,11 +154,11 @@ public class BlogController {
             ret.setContent(content);
             ret.setTitle(title);
             user.addBlog(ret);
-            return new Result(200,"编辑成功");
+            return new Result(200);
         }
         else
         {
-            return new Result(400,"编辑失败");
+            return new Result(400);
         }
     }
 }

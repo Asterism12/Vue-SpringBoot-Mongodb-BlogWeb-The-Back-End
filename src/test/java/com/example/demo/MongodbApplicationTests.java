@@ -1,15 +1,21 @@
 package com.example.demo;
 
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.beans.Blog;
 import com.example.beans.User;
+import com.mongodb.WriteResult;
+import com.mongodb.client.result.UpdateResult;
 
 
 @RunWith(SpringRunner.class)
@@ -20,9 +26,10 @@ public class MongodbApplicationTests {
 	
 	/*@org.junit.Test
 	public void contextLoads() {
-		User a=new User();
-		a.setId(27L);
-		mongotemplate.insert(a);
+		Blog blog=new Blog();
+		blog.setId(3);
+		blog.setbid();
+		mongotemplate.save(blog);
 	}*/
 	
 	/*@org.junit.Test
@@ -39,11 +46,10 @@ public class MongodbApplicationTests {
 	
 	@org.junit.Test
 	public void find() {
-		User ret=new User();
-        ret.setPassword("0227");
-        ret.setUsername("1998");
-        ret.setId(mongotemplate.count(new Query(), User.class)+1);
-        System.out.println(ret);
-        mongotemplate.save(ret);
+		Query query=new Query();
+		query.addCriteria(Criteria.where("_id").is(2L));
+		Update update=Update.update("bid", 2L);
+		UpdateResult upsert=mongotemplate.updateFirst(query, update, Blog.class);
+		
 	}
 }
