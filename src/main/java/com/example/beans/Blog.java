@@ -15,21 +15,13 @@ public class Blog extends Entity{
 	}
 	private long bid;
 	private String title;
-
 	private String content;
-
 	private String author;
-
 	private String date;
-
 	private Integer viewCount;
-
 	private Integer likeCount;
-
 	private Integer commentCount;
-
 	private int code;//文章分类
-
 	private String Abstract;
 
 	private ArrayList<Comments> commentsArrayList = new ArrayList<Comments>();

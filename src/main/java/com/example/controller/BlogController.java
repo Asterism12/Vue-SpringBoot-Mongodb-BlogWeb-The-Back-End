@@ -19,7 +19,8 @@ public class BlogController {
     private MongoTemplate mongotemplate;
     @RequestMapping("/")
     public String Hello() {
-        //mongotemplate.findAllAndRemove(new Query(),Blog.class);
+        mongotemplate.findAllAndRemove(new Query(),Blog.class);
+        mongotemplate.findAllAndRemove(new Query(),User.class);
         return "helloworld";
     }
     @CrossOrigin
@@ -30,7 +31,6 @@ public class BlogController {
         System.out.println("展示博文 "+id);
         Query query=new Query();
         Criteria criteria=new Criteria();
-
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
         ret.setViewCount();
         mongotemplate.save(ret);

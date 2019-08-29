@@ -8,10 +8,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.beans.User;
 import com.example.result.Result;
@@ -75,7 +72,7 @@ public class UserController {
 	@CrossOrigin
 	@GetMapping("/userlists")
 	@ResponseBody
-	public List<User> findUsers(String keyword){
+	public List<User> findUsers(@RequestParam String keyword){
 		if(keyword==null) {
 			return mongotemplate.findAll(User.class);
 		}
