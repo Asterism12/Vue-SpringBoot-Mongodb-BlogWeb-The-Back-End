@@ -31,7 +31,7 @@ public class BlogController {
         Query query=new Query();
         Criteria criteria=new Criteria();
 
-        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("Id").is(id)),Blog.class);
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
         if(ret!=null) {
             return new Result(200);
         }
