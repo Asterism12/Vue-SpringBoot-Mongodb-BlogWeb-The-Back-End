@@ -41,7 +41,7 @@ public class LoginController {
 		criteria.and("username").is(username);
 		criteria.and("password").is(User.encode(requestUser.getPassword()));
 		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
-		if(ret!=null) return new Result(200,"登陆成功");
+		if(ret!=null) return new Result(200,"登录成功");
 		else {
 			return new Result(400,"登录失败，用户名或密码错误");
 		}
