@@ -125,7 +125,6 @@ public class BlogController {
             ret2.deleteBlog(ret);
             ret.setTitle(null);
             ret.setContent(null);
-            ret.setAbstract(null);
             ret.setAuthor(null);
             ret.setCode(0);
             ret.setImgURL(null);
