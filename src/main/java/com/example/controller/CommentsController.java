@@ -20,21 +20,22 @@ public class CommentsController {
     @GetMapping(value="api/comment")
 
     //发布评论
-    public Result publishComment(int id, String username, String comment)
+    public Result publishComment(@RequestParam(value="bid") int id, @RequestParam(value="username") String username, @RequestParam(value="content")String comment)
     {
         Query query = new Query();
         username= HtmlUtils.htmlEscape(username);
         comment=HtmlUtils.htmlEscape(comment);
-        Blog blog=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
+        Blog blog=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
         if(blog != null)
         {
             Comments comments = new Comments();
             comments.setContent(comment);
             comments.setUsername(username);
+            
+            comments.setId(mongotemplate.count(new Query(), Comments.class));
             blog.writeComments(comments);
             return new Result(200,"发布成功");
         }
         else return new Result(400,"发布失败");
     }
-
 }
