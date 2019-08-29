@@ -93,6 +93,7 @@ public class BlogController {
         Blog blog = new Blog();
         Query query=new Query();
         blog.setId(mongotemplate.count(query,Blog.class)+1);
+        blog.setbid();
         blog.setTitle(title);
         blog.setContent(content);
         blog.setAuthor(username);
