@@ -35,7 +35,7 @@ public class CommentsController {
             comments.setContent(comment);
             comments.setUsername(username);
             
-            comments.setId(mongotemplate.count(new Query(), Comments.class));
+            comments.setId(mongotemplate.count(new Query(), Comments.class)+1);
             blog.writeComments(comments);
             blog.setCommentCount();
             mongotemplate.save(blog);
