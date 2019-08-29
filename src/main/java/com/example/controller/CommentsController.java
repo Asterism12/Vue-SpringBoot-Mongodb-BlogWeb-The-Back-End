@@ -23,6 +23,8 @@ public class CommentsController {
     //发布评论
     public Result publishComment(@RequestParam(value="username") String username, @RequestParam(value="bid") int id, @RequestParam(value="content")String comment)
     {
+      	System.out.println("发布评论 "+username+" "+id+" "+comment);
+      
         Query query = new Query();
         username= HtmlUtils.htmlEscape(username);
         comment=HtmlUtils.htmlEscape(comment);
