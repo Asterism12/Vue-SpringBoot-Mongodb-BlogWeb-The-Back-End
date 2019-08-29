@@ -20,7 +20,7 @@ public class User extends Entity{
     private String password;
     private Date registertime;
     private int attention;
-	private ArrayList<Blog> blogs=new ArrayList<Blog>();
+	private List<Blog> blogs=new ArrayList<Blog>();
 	
 	public void setattention() {
 		this.attention++;
@@ -28,7 +28,7 @@ public class User extends Entity{
 	public int getattention() {
 		return attention;
 	}
-	public ArrayList<Blog> getBlogs(){
+	public List<Blog> getBlogs(){
 		return blogs;
 	}
 	public void addBlog(Blog blog) {
