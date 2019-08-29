@@ -37,7 +37,10 @@ public class Blog extends Entity{
 	}
 
 	public void setContent(String content) {
+      	if(content==null)
+          this.Abstract=null;
 		this.content=content;
+      	this.Abstract=content.substring(0,40);
 	}
 
 	public void setImgURL(String imgURL){this.imgURL=imgURL;}
@@ -53,8 +56,6 @@ public class Blog extends Entity{
 	public void setCommentCount(){this.commentCount++;}
 
 	public void setCode(int code){this.code=code;}
-
-	public void setAbstract(String Abstract){this.Abstract=Abstract;}
 
 	public String getTitle() {
 		return title;
