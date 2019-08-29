@@ -43,7 +43,7 @@ public class Blog extends Entity{
       	if(content==null)
           this.Abstract=null;
 		this.content=content;
-      	this.Abstract=content.substring(0,40);
+      	this.Abstract=content.substring(0,content.length()>40?40:content.length());
 	}
 
 	public void setDate(String date) {
