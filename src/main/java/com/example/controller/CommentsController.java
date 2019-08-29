@@ -28,7 +28,7 @@ public class CommentsController {
         Query query = new Query();
         username= HtmlUtils.htmlEscape(username);
         comment=HtmlUtils.htmlEscape(comment);
-        Blog blog=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
+        Blog blog=mongotemplate.findOne(query.addCriteria(Criteria.where("bid").is(id)),Blog.class);
         if(blog != null)
         {
             Comments comments = new Comments();
