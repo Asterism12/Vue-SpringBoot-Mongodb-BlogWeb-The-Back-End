@@ -14,7 +14,7 @@ import org.springframework.web.util.HtmlUtils;
 @Controller
 public class CommentsController {
     @Autowired
-    private static MongoTemplate mongotemplate;
+    private MongoTemplate mongotemplate;
 
     @CrossOrigin
     @GetMapping(value="api/comment")
