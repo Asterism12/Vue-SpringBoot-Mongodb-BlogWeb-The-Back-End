@@ -51,7 +51,9 @@ public class Blog extends Entity{
 
 	public void setImgURL(String imgURL){this.imgURL=imgURL;}
 
-	public void setDate() { this.date = new Date();}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 
 	public void setViewCount(){this.viewCount++;}
 

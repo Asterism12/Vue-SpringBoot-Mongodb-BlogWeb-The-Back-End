@@ -9,8 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.mongodb.core.query.Query;
-
-
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -87,17 +86,17 @@ public class BlogController {
     @GetMapping(value="api/publish")
     @ResponseBody
     //发布博文
-    public Result publishBlog(String username, String title, String article, Integer code)
+    public Result publishBlog(@RequestParam(value="username")String username, @RequestParam(value="title") String title, @RequestParam(value="content")String content, @RequestParam(value="classification")int code,@RequestParam(value="date") Date date)
     {
-        System.out.println(username+" "+title+" "+article);
+        System.out.println(username+" "+title+" "+content);
         Blog blog = new Blog();
         Query query=new Query();
         blog.setId(mongotemplate.count(query,Blog.class)+1);
         blog.setTitle(title);
-        blog.setContent(article);
+        blog.setContent(content);
         blog.setAuthor(username);
         blog.setCode(code);
-        blog.setDate();
+        blog.setDate(date);
         System.out.println(blog.getAuthor()+" "+blog.getTitle()+" "+blog.getContent()+" "+blog.getCode());
         User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
         if(ret==null ) return new Result(400,"发布失败");
