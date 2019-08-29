@@ -3,14 +3,13 @@ package com.example.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 @Document(collection="blog")
 public class Blog extends Entity{
-	private long bid;
-	
+
 	private String title;
 
 	private String content;
@@ -32,19 +31,11 @@ public class Blog extends Entity{
 	private String Abstract;
 
 	private ArrayList<Comments> commentsArrayList = new ArrayList<Comments>();
-	
-	public void setbid() {
-		this.bid=super.getId();
-	}
-	
-	public long getbid() {
-		return this.bid;
-	}
-	
+
 	public void setTitle(String title) {
 		this.title=title;
 	}
-	
+
 	public void setContent(String content) {
       	if(content==null)
           this.Abstract=null;
