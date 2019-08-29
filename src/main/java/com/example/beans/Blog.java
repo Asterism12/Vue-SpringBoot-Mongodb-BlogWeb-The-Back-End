@@ -2,7 +2,6 @@ package com.example.beans;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -18,7 +17,7 @@ public class Blog extends Entity{
 
 	private String author;
 
-	private Date date;
+	private String date;
 
 	private Integer viewCount;
 
@@ -51,7 +50,7 @@ public class Blog extends Entity{
 
 	public void setImgURL(String imgURL){this.imgURL=imgURL;}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -75,7 +74,7 @@ public class Blog extends Entity{
 
 	public String getAuthor(){return author;}
 
-	public Date getDate(){return date;}
+	public String getDate(){return date;}
 
 	public String getImgURL(){return imgURL;}
 

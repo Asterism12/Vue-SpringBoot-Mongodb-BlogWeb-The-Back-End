@@ -86,7 +86,7 @@ public class BlogController {
     @GetMapping(value="api/publish")
     @ResponseBody
     //发布博文
-    public Result publishBlog(@RequestParam(value="username")String username, @RequestParam(value="title") String title, @RequestParam(value="content")String content, @RequestParam(value="classification")int code,@RequestParam(value="date") Date date)
+    public Result publishBlog(@RequestParam(value="username")String username, @RequestParam(value="title") String title, @RequestParam(value="content")String content, @RequestParam(value="classification")int code,@RequestParam(value="date") String date)
     {
         System.out.println(username+" "+title+" "+content);
         Blog blog = new Blog();
