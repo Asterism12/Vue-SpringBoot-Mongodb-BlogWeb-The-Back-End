@@ -19,8 +19,8 @@ public class BlogController {
     private MongoTemplate mongotemplate;
     @RequestMapping("/")
     public String Hello() {
-        mongotemplate.findAllAndRemove(new Query(),Blog.class);
-        mongotemplate.findAllAndRemove(new Query(),User.class);
+        /*mongotemplate.findAllAndRemove(new Query(),Blog.class);
+        mongotemplate.findAllAndRemove(new Query(),User.class);*/
         return "helloworld";
     }
     @CrossOrigin
@@ -44,23 +44,6 @@ public class BlogController {
     }
 
     //通过关键字检索
-
-
-    @CrossOrigin
-    @GetMapping(value="api/lists1")
-    @ResponseBody
-    //搜索作者
-    public List<Blog> searchAuthor(String keyword)
-    {
-        System.out.println("博文作者搜索 "+keyword);
-        Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);//???
-        Query query = new Query(Criteria.where("author").regex(pattern));
-        List<Blog> resault = mongotemplate.find(query,Blog.class,"blog");
-        for (int i=0;i<resault.size();i++)System.out.println(i+" "+resault.get(i).getTitle()+" "+resault.get(i).getContent()+" "+resault.get(i).getAuthor());
-        return resault;
-    }
-
-
 
     @CrossOrigin
     @GetMapping(value="api/lists")

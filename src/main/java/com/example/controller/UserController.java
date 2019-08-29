@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -17,7 +18,15 @@ import com.example.result.Result;
 public class UserController {
 	@Autowired
 	private MongoTemplate mongotemplate;
-	
+	@CrossOrigin
+	@PostMapping("/api/user")
+	@ResponseBody
+	//个人主页
+	public User usermain(@RequestParam(value="username")String username){
+		Query query=new Query();
+		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
+		return ret;
+	}
 	@CrossOrigin
 	@PostMapping("/hhh")
 	@ResponseBody
@@ -68,17 +77,23 @@ public class UserController {
 			return new Result(200,"关注成功");
 		}
 	}
-	
+
 	@CrossOrigin
-	@GetMapping("/userlists")
+	@GetMapping(value="api/userlists")
 	@ResponseBody
-	public List<User> findUsers(@RequestParam String keyword){
+	public List<SecurityProperties.User> finduser(@RequestParam(value="keyword") String keyword) {
+		System.out.println("搜索用户 "+keyword);
 		if(keyword==null) {
-			return mongotemplate.findAll(User.class);
+			return mongotemplate.findAll(SecurityProperties.User.class);
 		}
-		Pattern pattern=Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
-		Query query=new Query(Criteria.where("username").regex(pattern));
-		List<User> list=mongotemplate.find(query, User.class);
-		return list;
+		Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);//???
+		Query query = new Query(Criteria.where("username").regex(pattern));
+		List<SecurityProperties.User> ret = mongotemplate.find(query, SecurityProperties.User.class,"user");
+		if(ret!=null) {
+			return ret;
+		}
+		else {
+			return null;
+		}
 	}
 }
