@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -83,14 +82,14 @@ public class UserController {
 	@CrossOrigin
 	@GetMapping(value="api/userlists")
 	@ResponseBody
-	public List<SecurityProperties.User> finduser(@RequestParam(value="keyword") String keyword) {
+	public List<User> finduser(@RequestParam(value="keyword") String keyword) {
 		System.out.println("搜索用户 "+keyword);
 		if(keyword==null) {
-			return mongotemplate.findAll(SecurityProperties.User.class);
+			return mongotemplate.findAll(User.class);
 		}
 		Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);//???
 		Query query = new Query(Criteria.where("username").regex(pattern));
-		List<SecurityProperties.User> ret = mongotemplate.find(query, SecurityProperties.User.class,"user");
+		List<User> ret = mongotemplate.find(query, User.class,"user");
 		if(ret!=null) {
 			return ret;
 		}
