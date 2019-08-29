@@ -33,6 +33,7 @@ public class BlogController {
 
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
         ret.setViewCount();
+        mongotemplate.save(ret);
         if(ret!=null) {
             return ret;
         }

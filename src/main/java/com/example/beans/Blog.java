@@ -8,6 +8,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="blog")
 public class Blog extends Entity{
+	public Blog() {
+		viewCount=0;
+		likeCount=0;
+		commentCount=0;
+	}
 	private long bid;
 	private String title;
 
