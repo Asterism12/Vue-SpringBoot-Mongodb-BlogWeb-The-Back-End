@@ -19,15 +19,17 @@ public class UserController {
 	@Autowired
 	private MongoTemplate mongotemplate;
 	@CrossOrigin
-	@PostMapping("/api/user")
+	@GetMapping("/api/user")
 	@ResponseBody
 	//个人主页
 	public User usermain(@RequestParam(value="username")String username){
+		System.out.println("展示个人主页 "+username);
 		Query query=new Query();
 		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
 		return ret;
 	}
-	@CrossOrigin
+
+	/*@CrossOrigin
 	@PostMapping("/hhh")
 	@ResponseBody
 	public Result changeusername(String username1,String username2,String password) {
@@ -44,9 +46,9 @@ public class UserController {
 			mongotemplate.save(ret);
 			return new Result(200,"修改成功");
 		}
-	}
+	}*/
 	
-	@CrossOrigin
+	/*@CrossOrigin
 	@PostMapping("/mm")
 	@ResponseBody
 	public Result changepassword(String username,String password1,String password2) {
@@ -63,7 +65,7 @@ public class UserController {
 			mongotemplate.save(ret);
 			return new Result(200,"修改成功");
 		}
-	}
+	}*/
 	
 	@CrossOrigin
 	@PostMapping("/t")
