@@ -6,7 +6,6 @@ import com.example.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.mongodb.core.query.Query;
@@ -24,12 +23,13 @@ public class BlogController {
         return "helloworld";
     }
     @CrossOrigin
-    @GetMapping(value="/user")
+    @GetMapping(value="/api/blogs")
     @ResponseBody
     //展示文章内容
-    public Blog getBlog(long id) {
+    public Blog getBlog(@RequestParam(value="bid") long id) {
         System.out.println(id);
         Query query=new Query();
+        Criteria criteria=new Criteria();
 
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
         if(ret!=null) {
@@ -37,7 +37,7 @@ public class BlogController {
         }
         else {
             System.out.println("没有找到");
-            return null;
+            return ret;
         }
     }
 
@@ -64,9 +64,8 @@ public class BlogController {
     @GetMapping(value="api/lists")
     @ResponseBody
     //搜索博文内容或者题目
-    public List<Blog> searchBlog(String keyword,int code, Model model )
+    public Blog[] searchBlog(@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
     {
-
         System.out.println(keyword+" "+code);
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
         Criteria criteria = new Criteria();
@@ -76,7 +75,11 @@ public class BlogController {
         else criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
         Query query = new Query(criteria);
         List<Blog> resault = mongotemplate.find(query,Blog.class);
-        return resault;
+        Blog[] blogs=new Blog[resault.size()];
+        for(int i=0;i<resault.size();i++) {
+        	blogs[i]=resault.get(i);
+        }
+        return blogs;
     }
 
 
@@ -122,7 +125,6 @@ public class BlogController {
             ret2.deleteBlog(ret);
             ret.setTitle(null);
             ret.setContent(null);
-            ret.setAbstract(null);
             ret.setAuthor(null);
             ret.setCode(0);
             ret.setImgURL(null);
