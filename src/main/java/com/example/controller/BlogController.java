@@ -88,7 +88,7 @@ public class BlogController {
     //发布博文
     public Result publishBlog(@RequestParam(value="username")String username, @RequestParam(value="title") String title, @RequestParam(value="content")String content, @RequestParam(value="classification")int code,@RequestParam(value="date") String date)
     {
-        System.out.println(username+" "+title+" "+content);
+        System.out.println(username+" "+title+" "+content+" "+code+" "+date);
         Blog blog = new Blog();
         Query query=new Query();
         blog.setId(mongotemplate.count(query,Blog.class)+1);
@@ -126,7 +126,6 @@ public class BlogController {
             ret.setContent(null);
             ret.setAuthor(null);
             ret.setCode(0);
-            ret.setImgURL(null);
             ret.getList().clear();
             return new Result(200,"删除成功");
         }

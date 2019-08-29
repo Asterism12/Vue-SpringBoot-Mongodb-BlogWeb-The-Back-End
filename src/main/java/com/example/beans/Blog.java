@@ -13,8 +13,6 @@ public class Blog extends Entity{
 
 	private String content;
 
-	private String imgURL;
-
 	private String author;
 
 	private String date;
@@ -48,8 +46,6 @@ public class Blog extends Entity{
       	this.Abstract=content.substring(0,40);
 	}
 
-	public void setImgURL(String imgURL){this.imgURL=imgURL;}
-
 	public void setDate(String date) {
 		this.date = date;
 	}
@@ -76,7 +72,7 @@ public class Blog extends Entity{
 
 	public String getDate(){return date;}
 
-	public String getImgURL(){return imgURL;}
+
 
 	public Integer getViewCount(){return viewCount;}
 
