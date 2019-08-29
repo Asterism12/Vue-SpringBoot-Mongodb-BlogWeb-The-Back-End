@@ -14,14 +14,14 @@ import org.springframework.web.util.HtmlUtils;
 @Controller
 public class CommentsController {
     @Autowired
-    private MongoTemplate mongotemplate;
+    private static MongoTemplate mongotemplate;
 
     @CrossOrigin
     @GetMapping(value="api/comment")
     @ResponseBody
 
     //发布评论
-    public Result publishComment(@RequestParam(value="bid") int id, @RequestParam(value="username") String username, @RequestParam(value="content")String comment)
+    public Result publishComment(@RequestParam(value="username") String username, @RequestParam(value="bid") int id, @RequestParam(value="content")String comment)
     {
         Query query = new Query();
         username= HtmlUtils.htmlEscape(username);
@@ -36,6 +36,7 @@ public class CommentsController {
             comments.setId(mongotemplate.count(new Query(), Comments.class));
             blog.writeComments(comments);
             blog.setCommentCount();
+            mongotemplate.save(blog);
             return new Result(200,"发布成功");
         }
         else return new Result(400,"发布失败");
