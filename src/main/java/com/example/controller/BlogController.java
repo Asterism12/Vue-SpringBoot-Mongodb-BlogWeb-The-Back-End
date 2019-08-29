@@ -30,7 +30,8 @@ public class BlogController {
         Query query=new Query();
         Criteria criteria=new Criteria();
 
-        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("bid").is(id)),Blog.class);
+        ret.setViewCount();
         if(ret!=null) {
             return ret;
         }

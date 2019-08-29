@@ -43,7 +43,6 @@ public class LoginController {
 		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
 		if(ret!=null) return new Result(200,"登陆成功");
 		else {
-			System.out.println("test");
 			return new Result(400,"登录失败，用户名或密码错误");
 		}
 	}
