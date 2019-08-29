@@ -19,13 +19,10 @@ public class CommentsController {
     @CrossOrigin
     @GetMapping(value="api/comment")
     @ResponseBody
-
     //发布评论
     public Result publishComment(@RequestParam(value="username") String username, @RequestParam(value="bid") int id, @RequestParam(value="content")String comment)
     {
       	System.out.println("发布评论 "+username+" "+id+" "+comment);
-      	System.out.println(mongotemplate);
-      	System.out.println("LLLLLL");
         Query query = new Query();
         username= HtmlUtils.htmlEscape(username);
         comment=HtmlUtils.htmlEscape(comment);
