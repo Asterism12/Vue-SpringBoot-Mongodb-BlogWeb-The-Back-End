@@ -3,9 +3,9 @@ package com.example.beans;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 @Document(collection="blog")
 public class Blog extends Entity{
