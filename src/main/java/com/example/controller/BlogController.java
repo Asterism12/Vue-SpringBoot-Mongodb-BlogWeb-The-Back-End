@@ -26,7 +26,7 @@ public class BlogController {
     @ResponseBody
     //展示文章内容
     public Blog getBlog(@RequestParam(value="bid") long id) {
-        System.out.println(id);
+        System.out.println("展示博文 "+id);
         Query query=new Query();
         Criteria criteria=new Criteria();
 
@@ -49,7 +49,7 @@ public class BlogController {
     //搜索作者
     public List<Blog> searchAuthor(String keyword)
     {
-        System.out.println(keyword);
+        System.out.println("博文作者搜索 "+keyword);
         Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);//???
         Query query = new Query(Criteria.where("author").regex(pattern));
         List<Blog> resault = mongotemplate.find(query,Blog.class,"blog");
@@ -65,7 +65,7 @@ public class BlogController {
     //搜索博文内容或者题目
     public List<Blog> searchBlog(@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
     {
-        System.out.println(keyword+" "+code);
+        System.out.println("博文内容搜索 "+keyword+" "+code);
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
         Criteria criteria = new Criteria();
         if(code!=0) {
@@ -88,7 +88,7 @@ public class BlogController {
     //发布博文
     public Result publishBlog(@RequestParam(value="username")String username, @RequestParam(value="title") String title, @RequestParam(value="content")String content, @RequestParam(value="classification")int code,@RequestParam(value="date") String date)
     {
-        System.out.println(username+" "+title+" "+content+" "+code+" "+date);
+        System.out.println("发布博文 "+username+" "+title+" "+content+" "+code+" "+date);
         Blog blog = new Blog();
         Query query=new Query();
         blog.setId(mongotemplate.count(query,Blog.class)+1);
@@ -97,7 +97,6 @@ public class BlogController {
         blog.setAuthor(username);
         blog.setCode(code);
         blog.setDate(date);
-        System.out.println(blog.getAuthor()+" "+blog.getTitle()+" "+blog.getContent()+" "+blog.getCode());
         User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
         if(ret==null ) return new Result(400,"发布失败");
         else {
@@ -114,6 +113,7 @@ public class BlogController {
     //删除博文
     public Result deleteBlog(long id)
     {
+        System.out.println("删除博文 "+id);
         Query query = new Query();
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
         

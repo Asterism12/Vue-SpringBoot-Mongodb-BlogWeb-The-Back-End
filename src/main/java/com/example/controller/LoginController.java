@@ -35,7 +35,7 @@ public class LoginController {
 			return new Result(300,"登录失败，请把用户名和密码设置为6-12位");
 		String username=requestUser.getUsername();
 		username=HtmlUtils.htmlEscape(username);
-		System.out.println(username);
+		System.out.println("用户登录 "+username);
 		Query query=new Query();
 		Criteria criteria=new Criteria();
 		criteria.and("username").is(username);
