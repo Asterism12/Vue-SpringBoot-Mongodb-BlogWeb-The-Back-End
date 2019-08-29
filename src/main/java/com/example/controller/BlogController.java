@@ -19,7 +19,7 @@ public class BlogController {
     private MongoTemplate mongotemplate;
     @RequestMapping("/")
     public String Hello() {
-
+        //mongotemplate.findAllAndRemove(new Query(),Blog.class);
         return "helloworld";
     }
     @CrossOrigin
