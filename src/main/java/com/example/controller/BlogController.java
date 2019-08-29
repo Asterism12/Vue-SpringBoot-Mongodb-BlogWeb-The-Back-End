@@ -6,6 +6,7 @@ import com.example.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.mongodb.core.query.Query;
@@ -26,18 +27,17 @@ public class BlogController {
     @GetMapping(value="/user")
     @ResponseBody
     //展示文章内容
-    public Result getBlog(long id) {
+    public Blog getBlog(long id) {
         System.out.println(id);
         Query query=new Query();
-        Criteria criteria=new Criteria();
 
-        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("Id").is(id)),Blog.class);
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
         if(ret!=null) {
-            return new Result(200);
+            return ret;
         }
         else {
             System.out.println("没有找到");
-            return new Result((400));
+            return null;
         }
     }
 
@@ -64,8 +64,9 @@ public class BlogController {
     @GetMapping(value="api/lists")
     @ResponseBody
     //搜索博文内容或者题目
-    public List<Blog> searchBlog(String keyword,int code)
+    public List<Blog> searchBlog(String keyword,int code, Model model )
     {
+
         System.out.println(keyword+" "+code);
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
         Criteria criteria = new Criteria();

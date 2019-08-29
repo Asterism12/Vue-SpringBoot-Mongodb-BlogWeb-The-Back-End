@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -10,6 +11,8 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.example.beans.User;
 import com.example.result.Result;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -27,7 +30,9 @@ public class LoginController {
 	@CrossOrigin
 	@PostMapping(value="/api/login")
 	@ResponseBody
-	public Result login(@RequestBody User requestUser) {
+	public Result login(@RequestBody @Valid User requestUser, BindingResult result) {
+		if (result.hasErrors())
+			return new Result(300);
 		String username=requestUser.getUsername();
 		username=HtmlUtils.htmlEscape(username);
 		System.out.println(username);
