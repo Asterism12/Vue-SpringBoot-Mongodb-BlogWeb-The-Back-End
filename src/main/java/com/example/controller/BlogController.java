@@ -31,10 +31,10 @@ public class BlogController {
         System.out.println("展示博文 "+id);
         Query query=new Query();
         Criteria criteria=new Criteria();
-        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("_id").is(id)),Blog.class);
-        ret.setViewCount();
-        mongotemplate.save(ret);
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("bid").is(id)),Blog.class);
         if(ret!=null) {
+        	ret.setViewCount();
+            mongotemplate.save(ret);
             return ret;
         }
         else {
@@ -60,10 +60,6 @@ public class BlogController {
         else criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
         Query query = new Query(criteria);
         List<Blog> resault = mongotemplate.find(query,Blog.class);
-        Blog[] blogs=new Blog[resault.size()];
-        for(int i=0;i<resault.size();i++) {
-        	blogs[i]=resault.get(i);
-        }
         return resault;
     }
 
@@ -98,11 +94,11 @@ public class BlogController {
     @CrossOrigin
     @GetMapping(value="api/blogdelete")
     //删除博文
-    public Result deleteBlog(long id)
+    public Result deleteBlog(@RequestParam(value="bid") long id)
     {
         System.out.println("删除博文 "+id);
         Query query = new Query();
-        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("bid").is(id)),Blog.class);
         
         if(ret != null)
         {
@@ -114,6 +110,9 @@ public class BlogController {
             ret.setAuthor(null);
             ret.setCode(0);
             ret.getList().clear();
+            ret.setDate(null);
+            mongotemplate.save(ret);
+            mongotemplate.save(ret2);
             return new Result(200,"删除成功");
         }
         else
@@ -126,10 +125,10 @@ public class BlogController {
     @CrossOrigin
     @GetMapping(value="api/blogmodify")
     //修改文章
-    public Result editBlog(long id,String title,String content)
+    public Result editBlog(@RequestParam(value="bid") long id,@RequestParam(value="title") String title,@RequestParam(value="content") String content)
     {
         Query query = new Query();
-        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("id").is(id)),Blog.class);
+        Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("bid").is(id)),Blog.class);
         
         if(ret != null)
         {
@@ -139,6 +138,8 @@ public class BlogController {
             ret.setContent(content);
             ret.setTitle(title);
             user.addBlog(ret);
+            mongotemplate.save(ret);
+            mongotemplate.save(user);
             return new Result(200,"编辑成功");
         }
         else
