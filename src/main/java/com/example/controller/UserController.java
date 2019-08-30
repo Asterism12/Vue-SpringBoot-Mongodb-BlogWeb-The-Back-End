@@ -70,7 +70,7 @@ public class UserController {
 	@PostMapping("/api/modifyavatar")
 	@ResponseBody
 	//修改头像
-	public ImgResult singleFileUpload(@RequestParam(value="username") String username,@RequestParam(value="avatar") MultipartFile file){
+	public ImgResult singleFileUpload(@RequestBody String username,@RequestBody MultipartFile file){
 		System.out.println("修改头像 ");
 		if (file==null || file.isEmpty()) {
 			System.out.println("null");
