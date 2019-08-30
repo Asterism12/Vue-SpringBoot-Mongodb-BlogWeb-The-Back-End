@@ -33,6 +33,7 @@ public class UserController {
 		userresult.setsex(ret.getsex());
 		userresult.setsign(ret.getsign());
 		userresult.setUsername(ret.getUsername());
+		userresult.setblogs(ret.getBlogs());
 		return userresult;
 	}
 
@@ -123,6 +124,7 @@ public class UserController {
 			userresult.setsex(ret.get(i).getsex());
 			userresult.setsign(ret.get(i).getsign());
 			userresult.setUsername(ret.get(i).getUsername());
+			userresult.setblogs(ret.get(i).getBlogs());
 			userlist.add(userresult);
 		}
 		return userlist;
