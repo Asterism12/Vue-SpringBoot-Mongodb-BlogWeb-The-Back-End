@@ -71,23 +71,22 @@ public class BlogController {
     }
 
 
-    @CrossOrigin
-    @GetMapping(value="api/publish")
+   @CrossOrigin
+    @PostMapping(value="api/publish")
     @ResponseBody
     //发布博文
-    public MessageResult publishBlog(@RequestParam(value="username")String username, @RequestParam(value="title") String title, @RequestParam(value="content")String content, @RequestParam(value="classification")int code, @RequestParam(value="date") String date)
+    public MessageResult publishBlog(@RequestBody Blog requestblog)
     {
-        System.out.println("发布博文 "+username+" "+title+" "+content+" "+code+" "+date);
         Blog blog = new Blog();
         Query query=new Query();
         blog.setId(mongotemplate.count(query,Blog.class)+1);
         blog.setbid();
-        blog.setTitle(title);
-        blog.setContent(content);
-        blog.setAuthor(username);
-        blog.setCode(code);
-        blog.setDate(date);
-        User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
+        blog.setTitle(requestblog.getTitle());
+        blog.setContent(requestblog.getContent());
+        blog.setAuthor(requestblog.getAuthor());
+        blog.setCode(requestblog.getCode());
+        blog.setDate(requestblog.getDate());
+        User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(requestblog.getAuthor())),User.class);
         if(ret==null ) return new MessageResult(400,"发布失败");
         else {
         	ret.addBlog(blog);
