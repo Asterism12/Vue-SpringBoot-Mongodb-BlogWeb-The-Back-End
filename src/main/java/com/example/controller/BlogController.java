@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.beans.Blog;
 import com.example.beans.User;
+import com.example.result.BlogResult;
 import com.example.result.ImgResult;
 import com.example.result.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -34,19 +36,27 @@ public class BlogController {
     @GetMapping(value="/api/blogs")
     @ResponseBody
     //展示文章内容
-    public Blog getBlog(@RequestParam(value="bid") long id) {
+    public BlogResult getBlog(@RequestParam(value="bid") long id) {
         System.out.println("展示博文 "+id);
         Query query=new Query();
         Criteria criteria=new Criteria();
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("bid").is(id)),Blog.class);
+        BlogResult blogresult=new BlogResult();
         if(ret!=null) {
         	ret.setViewCount();
             mongotemplate.save(ret);
-            return ret;
+            blogresult.setAbstract(ret.getAbstract());
+            blogresult.setTitle(ret.getTitle());
+            blogresult.setAuthor(ret.getAuthor());
+            blogresult.setbid(ret.getbid());
+            blogresult.setcommentcount(ret.getCommentCount());
+            blogresult.setlikeCount(ret.getLikeCount());
+            blogresult.setViewCount(ret.getViewCount());
+            return blogresult;
         }
         else {
             System.out.println("没有找到");
-            return ret;
+            return blogresult;
         }
     }
 
@@ -56,7 +66,7 @@ public class BlogController {
     @GetMapping(value="api/lists")
     @ResponseBody
     //搜索博文内容或者题目
-    public List<Blog> searchBlog(@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
+    public List<BlogResult> searchBlog(@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
     {
         System.out.println("博文内容搜索 "+keyword+" "+code);
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
@@ -67,7 +77,19 @@ public class BlogController {
         else criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
         Query query = new Query(criteria);
         List<Blog> resault = mongotemplate.find(query,Blog.class);
-        return resault;
+        List<BlogResult> blogs=new ArrayList<BlogResult>();
+        for(int i=0;i<resault.size();i++) {
+        	BlogResult blogresult=new BlogResult();
+        	blogresult.setAbstract(resault.get(i).getAbstract());
+            blogresult.setTitle(resault.get(i).getTitle());
+            blogresult.setAuthor(resault.get(i).getAuthor());
+            blogresult.setbid(resault.get(i).getbid());
+            blogresult.setcommentcount(resault.get(i).getCommentCount());
+            blogresult.setlikeCount(resault.get(i).getLikeCount());
+            blogresult.setViewCount(resault.get(i).getViewCount());
+            blogs.add(blogresult);
+        }
+        return blogs;
     }
 
 
