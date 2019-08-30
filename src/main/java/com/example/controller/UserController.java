@@ -69,10 +69,10 @@ public class UserController {
 
 
 	@CrossOrigin
-	@GetMapping("/api/modifyavatar")
+	@PostMapping("/api/modifyavatar")
 	@ResponseBody
 	//修改头像
-	public ImgResult singleFileUpload1(@RequestParam(value="username") String username,@RequestParam(value="file") MultipartFile file){
+	public ImgResult singleFileUpload1(@RequestParam(value="username") String username,@RequestParam(value="file",required=false) MultipartFile file){
 		System.out.println("修改头像 ");
 		System.out.println(username);
 		System.out.println(file.getOriginalFilename());
