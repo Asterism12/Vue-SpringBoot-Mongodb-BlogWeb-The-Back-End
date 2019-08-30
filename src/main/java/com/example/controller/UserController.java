@@ -66,7 +66,7 @@ public class UserController {
 		}
 	}*/
 	
-	@CrossOrigin
+	/*@CrossOrigin
 	@PostMapping("/t")
 	@ResponseBody
 	public Result attention(String username) {
@@ -77,24 +77,16 @@ public class UserController {
 			mongotemplate.save(ret);
 			return new Result(200,"关注成功");
 		}
-	}
+	}*/
 
 	@CrossOrigin
 	@GetMapping(value="api/userlists")
 	@ResponseBody
 	public List<User> finduser(@RequestParam(value="keyword") String keyword) {
 		System.out.println("搜索用户 "+keyword);
-		if(keyword==null) {
-			return mongotemplate.findAll(User.class);
-		}
-		Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);//???
+		Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);
 		Query query = new Query(Criteria.where("username").regex(pattern));
-		List<User> ret = mongotemplate.find(query, User.class,"user");
-		if(ret!=null) {
-			return ret;
-		}
-		else {
-			return null;
-		}
+		List<User> ret = mongotemplate.find(query, User.class);
+		return ret;
 	}
 }
