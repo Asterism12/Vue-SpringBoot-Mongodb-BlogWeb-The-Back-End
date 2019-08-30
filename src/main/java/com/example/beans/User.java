@@ -22,7 +22,30 @@ public class User extends Entity{
     private Date registertime;
     private int attention;
 	private List<Blog> blogs=new ArrayList<Blog>();
+	private String sex;
+	private int age;
+	private String sign;
 	
+	public void setsign(String sign) {
+		this.sign=sign;
+	}
+	public String getsign() {
+		return sign;
+	}
+	
+	public void setage(int age) {
+		this.age=age;
+	}
+	public int getage() {
+		return age;
+	}
+	public void setsex(String sex) {
+		this.sex=sex;
+	}
+	public String getsex() {
+		return sex;
+	}	
+
 	public void setattention() {
 		this.attention++;
 	}
