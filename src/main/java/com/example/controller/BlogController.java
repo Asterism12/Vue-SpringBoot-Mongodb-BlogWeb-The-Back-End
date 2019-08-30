@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 @Controller
@@ -58,9 +60,16 @@ public class BlogController {
     @GetMapping(value="api/lists")
     @ResponseBody
     //搜索博文内容或者题目
-    public List<BlogResult> searchBlog(@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
+    public List<BlogResult> searchBlog(@RequestParam(value="username") String username,@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
     {
         System.out.println("博文内容搜索 "+keyword+" "+code);
+        User ret=mongotemplate.findOne(new Query(), User.class);
+        if(ret==null) {
+        	return null;
+        }
+        else {
+        ret.addsearch(keyword);
+        mongotemplate.save(ret);
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
         Criteria criteria = new Criteria();
         if(code!=0) {
@@ -82,7 +91,9 @@ public class BlogController {
             blogs.add(blogresult);
         }
         return blogs;
+        }
     }
+
 
 
    @CrossOrigin
@@ -204,11 +215,28 @@ public class BlogController {
     	List<BlogResult> recommend=new ArrayList<BlogResult>();
     	List<Blog> searchresult=new ArrayList<Blog>();
     	if(ret==null) {
-    		searchresult=mongotemplate.find(new Query(),Blog.class);
+    		Query query=new Query();
+    		query.with(new Sort(Sort.Direction.DESC,"bid"));
+    		searchresult=mongotemplate.find(query,Blog.class);
     	}
     	else {//针对搜索到的用户进行推荐
-    		
-    		searchresult=mongotemplate.find(new Query(), Blog.class);
+    		Integer maxi=0;
+    		String key="";
+    		for(Integer max:ret.map.values()) {
+    			if(max>maxi) maxi=max;
+    		}
+    		for(Map.Entry<String , Integer>m:ret.map.entrySet()) {
+    			if(m.getValue().equals(maxi)) {
+    				key=m.getKey();
+    			}
+    		}
+    		Query query=new Query();
+    		Criteria criteria=new Criteria();
+    		Pattern pattern = Pattern.compile("^.*"+key+".*$",Pattern.CASE_INSENSITIVE);
+    		criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
+    		query.addCriteria(criteria);
+    		query.with(new Sort(Sort.Direction.DESC,"bid"));
+    		searchresult=mongotemplate.find(query, Blog.class);
     	}
     	for(int i=0;i<searchresult.size();i++) {
         	BlogResult blogresult=new BlogResult();
