@@ -26,6 +26,19 @@ public class User extends Entity{
 	private int age;
 	private String sign;
 	private String avatarurl;
+	private Map<String ,Integer> map=new HashMap<String,Integer>();
+	
+	public void addsearch(String keyword) {
+		if(map.containsKey(keyword)) {
+			Integer a=map.get(keyword);
+			a++;
+			map.put(keyword, a);
+		}
+		else {
+			Integer a=1;
+			map.put(keyword,a);
+		}
+	}
 
 	public String getAvatarurl() {
 		return avatarurl;
