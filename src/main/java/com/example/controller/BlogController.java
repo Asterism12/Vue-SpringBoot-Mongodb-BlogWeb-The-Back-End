@@ -221,12 +221,19 @@ public class BlogController {
     	}
     	else {//针对搜索到的用户进行推荐
     		Integer maxi=0;
+    		Integer maxi2=0;
     		String key="";
     		for(Integer max:ret.map.values()) {
-    			if(max>maxi) maxi=max;
+    			if(max>maxi) {
+    				maxi2=maxi;
+    				maxi=max;
+    			}
+    			else if(max>maxi2) {
+    				maxi2=max;
+    			}
     		}
     		for(Map.Entry<String , Integer>m:ret.map.entrySet()) {
-    			if(m.getValue().equals(maxi)) {
+    			if(m.getValue().equals(maxi2)) {
     				key=m.getKey();
     			}
     		}
