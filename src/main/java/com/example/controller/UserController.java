@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.beans.User;
-import com.example.result.MessageResult;
 import com.example.result.UserResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -72,9 +71,11 @@ public class UserController {
 	@ResponseBody
 	//修改头像
 	public ImgResult singleFileUpload(@RequestBody Avatar avatar){
-		System.out.println("修改头像 "+avatar.toString());
+		System.out.println("修改头像 ");
+		System.out.println(avatar.toString());
 		String username=avatar.getUsername();
 		MultipartFile file = avatar.getFile();
+		System.out.println(username+" "+file.getOriginalFilename());
 		if (file==null || file.isEmpty()) {
 			System.out.println("null");
 			return new ImgResult(400,null);

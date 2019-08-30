@@ -27,7 +27,4 @@ public class Avatar {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    public String toString(){
-        return username+" "+file.getOriginalFilename();
-    }
 }
