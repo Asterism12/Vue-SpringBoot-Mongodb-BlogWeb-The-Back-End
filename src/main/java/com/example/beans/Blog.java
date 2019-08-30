@@ -18,9 +18,9 @@ public class Blog extends Entity{
 	private String content;
 	private String author;
 	private String date;
-	private Integer viewCount;
-	private Integer likeCount;
-	private Integer commentCount;
+	private int viewCount;
+	private int likeCount;
+	private int commentCount;
 	private int code;//文章分类
 	private String Abstract;
 
@@ -74,11 +74,11 @@ public class Blog extends Entity{
 
 
 
-	public Integer getViewCount(){return viewCount;}
+	public int getViewCount(){return viewCount;}
 
-	public Integer getLikeCount(){return likeCount;}
+	public int getLikeCount(){return likeCount;}
 
-	public Integer getCommentCount(){return commentCount;}
+	public int getCommentCount(){return commentCount;}
 
 	public int getCode(){return code;}
 
