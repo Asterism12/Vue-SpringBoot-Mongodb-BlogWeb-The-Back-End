@@ -193,5 +193,34 @@ public class BlogController {
             return new ImgResult(200,null);
         }
     }
-
+	
+	 @CrossOrigin
+    @PostMapping(value="/api/recommend")
+    @ResponseBody
+    //用户推荐
+    public List<BlogResult> userRecommend(@RequestBody User requestuser){
+    	String username=requestuser.getUsername();
+    	User ret=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)), User.class);
+    	List<BlogResult> recommend=new ArrayList<BlogResult>();
+    	List<Blog> searchresult=new ArrayList<Blog>();
+    	if(ret==null) {
+    		searchresult=mongotemplate.find(new Query(),Blog.class);
+    	}
+    	else {//针对搜索到的用户进行推荐
+    		
+    		searchresult=mongotemplate.find(new Query(), Blog.class);
+    	}
+    	for(int i=0;i<searchresult.size();i++) {
+        	BlogResult blogresult=new BlogResult();
+        	blogresult.setAbstract(searchresult.get(i).getAbstract());
+            blogresult.setTitle(searchresult.get(i).getTitle());
+            blogresult.setAuthor(searchresult.get(i).getAuthor());
+            blogresult.setbid(searchresult.get(i).getbid());
+            blogresult.setcommentcount(searchresult.get(i).getCommentCount());
+            blogresult.setlikeCount(searchresult.get(i).getLikeCount());
+            blogresult.setViewCount(searchresult.get(i).getViewCount());
+            recommend.add(blogresult);
+        }
+		return recommend;
+    }
 }
