@@ -23,7 +23,7 @@ public class User extends Entity{
 	private int age;
 	private String sign;
 	private String avatarurl;
-	private Map<String ,Integer> map=new HashMap<String,Integer>();
+	public Map<String ,Integer> map=new HashMap<String,Integer>();
 	
 	public void addsearch(String keyword) {
 		if(map.containsKey(keyword)) {
