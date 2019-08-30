@@ -204,11 +204,28 @@ public class BlogController {
     	List<BlogResult> recommend=new ArrayList<BlogResult>();
     	List<Blog> searchresult=new ArrayList<Blog>();
     	if(ret==null) {
-    		searchresult=mongotemplate.find(new Query(),Blog.class);
+    		Query query=new Query();
+    		query.with(new Sort(Sort.Direction.DESC,"bid"));
+    		searchresult=mongotemplate.find(query,Blog.class);
     	}
     	else {//针对搜索到的用户进行推荐
-    		
-    		searchresult=mongotemplate.find(new Query(), Blog.class);
+    		Integer maxi=0;
+    		String key="";
+    		for(Integer max:ret.map.values()) {
+    			if(max>maxi) maxi=max;
+    		}
+    		for(Map.Entry<String , Integer>m:ret.map.entrySet()) {
+    			if(m.getValue().equals(maxi)) {
+    				key=m.getKey();
+    			}
+    		}
+    		Query query=new Query();
+    		Criteria criteria=new Criteria();
+    		Pattern pattern = Pattern.compile("^.*"+key+".*$",Pattern.CASE_INSENSITIVE);
+    		criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
+    		query.addCriteria(criteria);
+    		query.with(new Sort(Sort.Direction.DESC,"bid"));
+    		searchresult=mongotemplate.find(query, Blog.class);
     	}
     	for(int i=0;i<searchresult.size();i++) {
         	BlogResult blogresult=new BlogResult();
