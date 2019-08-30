@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.beans.User;
+import com.example.result.MessageResult;
+import com.example.result.UserResult;
 
 @Controller
 public class UserController {
@@ -21,11 +24,18 @@ public class UserController {
 	@GetMapping("/api/user")
 	@ResponseBody
 	//个人主页
-	public User usermain(@RequestParam(value="username")String username){
+	public UserResult usermain(@RequestParam(value="username")String username){
 		System.out.println("展示个人主页 "+username);
 		Query query=new Query();
 		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
-		return ret;
+		UserResult userresult=new UserResult();
+		userresult.setage(ret.getage());
+		userresult.setRegistertime(ret.getRegistertime());
+		userresult.setsex(ret.getsex());
+		userresult.setsign(ret.getsign());
+		userresult.setUsername(ret.getUsername());
+		userresult.setblogs(ret.getBlogs());
+		return userresult;
 	}
 
   	@CrossOrigin
@@ -102,11 +112,22 @@ public class UserController {
 	@CrossOrigin
 	@GetMapping(value="api/userlists")
 	@ResponseBody
-	public List<User> finduser(@RequestParam(value="keyword") String keyword) {
+	public List<UserResult> finduser(@RequestParam(value="keyword") String keyword) {
 		System.out.println("搜索用户 "+keyword);
 		Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);
 		Query query = new Query(Criteria.where("username").regex(pattern));
 		List<User> ret = mongotemplate.find(query, User.class);
-		return ret;
+		List<UserResult> userlist=new ArrayList<UserResult>();
+		for(int i=0;i<ret.size();i++) {
+			UserResult userresult=new UserResult();
+			userresult.setage(ret.get(i).getage());
+			userresult.setRegistertime(ret.get(i).getRegistertime());
+			userresult.setsex(ret.get(i).getsex());
+			userresult.setsign(ret.get(i).getsign());
+			userresult.setUsername(ret.get(i).getUsername());
+			userresult.setblogs(ret.get(i).getBlogs());
+			userlist.add(userresult);
+		}
+		return userlist;
 	}
 }
