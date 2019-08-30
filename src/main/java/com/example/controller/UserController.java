@@ -67,7 +67,7 @@ public class UserController {
 		}
 	}
 	@CrossOrigin
-	@PostMapping("/api/modifyavatar")
+	@GetMapping("/api/modifyavatar")
 	@ResponseBody
 	//修改头像
 	public ImgResult singleFileUpload(@RequestBody Avatar avatar){
