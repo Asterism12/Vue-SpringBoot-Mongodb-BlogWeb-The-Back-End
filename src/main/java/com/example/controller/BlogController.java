@@ -36,27 +36,19 @@ public class BlogController {
     @GetMapping(value="/api/blogs")
     @ResponseBody
     //展示文章内容
-    public BlogResult getBlog(@RequestParam(value="bid") long id) {
+    public Blog getBlog(@RequestParam(value="bid") long id) {
         System.out.println("展示博文 "+id);
         Query query=new Query();
         Criteria criteria=new Criteria();
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("bid").is(id)),Blog.class);
-        BlogResult blogresult=new BlogResult();
         if(ret!=null) {
         	ret.setViewCount();
             mongotemplate.save(ret);
-            blogresult.setAbstract(ret.getAbstract());
-            blogresult.setTitle(ret.getTitle());
-            blogresult.setAuthor(ret.getAuthor());
-            blogresult.setbid(ret.getbid());
-            blogresult.setcommentcount(ret.getCommentCount());
-            blogresult.setlikeCount(ret.getLikeCount());
-            blogresult.setViewCount(ret.getViewCount());
-            return blogresult;
+            return ret;
         }
         else {
             System.out.println("没有找到");
-            return blogresult;
+            return ret;
         }
     }
 
