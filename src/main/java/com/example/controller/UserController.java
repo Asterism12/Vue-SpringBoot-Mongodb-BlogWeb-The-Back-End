@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.beans.User;
+import com.example.result.MessageResult;
+import com.example.result.UserResult;
 
 @Controller
 public class UserController {
@@ -20,30 +23,36 @@ public class UserController {
 	@GetMapping("/api/user")
 	@ResponseBody
 	//个人主页
-	public User usermain(@RequestParam(value="username")String username){
+	public UserResult usermain(@RequestParam(value="username")String username){
 		System.out.println("展示个人主页 "+username);
 		Query query=new Query();
 		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
-		return ret;
+		UserResult userresult=new UserResult();
+		userresult.setage(ret.getage());
+		userresult.setRegistertime(ret.getRegistertime());
+		userresult.setsex(ret.getsex());
+		userresult.setsign(ret.getsign());
+		userresult.setUsername(ret.getUsername());
+		return userresult;
 	}
 
   	@CrossOrigin
 	@PostMapping("/api/modifyinfo")
 	@ResponseBody
 	//修改个人信息
-	public Result modifyinfo(@RequestBody User requestUser){
+	public MessageResult modifyinfo(@RequestBody User requestUser){
 		String username=requestUser.getUsername();
 		Query query=new Query();
 		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
 		if(ret==null) {
-			return new Result(400,"用户不存在");
+			return new MessageResult(400,"用户不存在");
 		}
 		else {
 			ret.setage(requestUser.getage());
 			ret.setsex(requestUser.getsex());
 			ret.setsign(requestUser.getsign());
 			mongotemplate.save(ret);
-			return new Result(200,"修改成功");
+			return new MessageResult(200,"修改成功");
 		}
 	}
 
@@ -101,11 +110,21 @@ public class UserController {
 	@CrossOrigin
 	@GetMapping(value="api/userlists")
 	@ResponseBody
-	public List<User> finduser(@RequestParam(value="keyword") String keyword) {
+	public List<UserResult> finduser(@RequestParam(value="keyword") String keyword) {
 		System.out.println("搜索用户 "+keyword);
 		Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);
 		Query query = new Query(Criteria.where("username").regex(pattern));
 		List<User> ret = mongotemplate.find(query, User.class);
-		return ret;
+		List<UserResult> userlist=new ArrayList<UserResult>();
+		for(int i=0;i<ret.size();i++) {
+			UserResult userresult=new UserResult();
+			userresult.setage(ret.get(i).getage());
+			userresult.setRegistertime(ret.get(i).getRegistertime());
+			userresult.setsex(ret.get(i).getsex());
+			userresult.setsign(ret.get(i).getsign());
+			userresult.setUsername(ret.get(i).getUsername());
+			userlist.add(userresult);
+		}
+		return userlist;
 	}
 }
