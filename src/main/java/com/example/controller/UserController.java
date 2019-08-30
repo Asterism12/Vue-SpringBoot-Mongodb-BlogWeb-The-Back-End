@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.example.beans.Avatar;
 import com.example.result.ImgResult;
 import com.example.result.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +71,10 @@ public class UserController {
 	@PostMapping("/api/modifyavatar")
 	@ResponseBody
 	//修改头像
-	public ImgResult singleFileUpload(@RequestBody String username,@RequestBody MultipartFile file){
-		System.out.println("修改头像 ");
+	public ImgResult singleFileUpload(@RequestBody Avatar avatar){
+		System.out.println("修改头像 "+avatar.toString());
+		String username=avatar.getUsername();
+		MultipartFile file = avatar.getFile();
 		if (file==null || file.isEmpty()) {
 			System.out.println("null");
 			return new ImgResult(400,null);
