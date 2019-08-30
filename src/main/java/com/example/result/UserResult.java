@@ -8,7 +8,7 @@ import com.example.beans.Blog;
 
 public class UserResult {
 	private String username;
-	private Date registertime;
+	private String registertime;
 	private List<Blog> blogs=new ArrayList<Blog>();
 	private String sex;
 	private int age;
@@ -55,10 +55,10 @@ public class UserResult {
     public void setUsername(String username) {
         this.username = username;
     }
-    public Date getRegistertime() {
+    public String getRegistertime() {
     	return registertime;
     }
     public void setRegistertime(Date registertime) {
-    	this.registertime=registertime;
+    	this.registertime=registertime.toLocaleString();
     }
 }
