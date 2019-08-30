@@ -4,16 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class Avatar {
     private String username;
-    private MultipartFile file;
-
-    public Avatar() {
-    }
-
-    public Avatar(String username, MultipartFile file) {
-        this.username = username;
-        this.file = file;
-    }
-
+    private MultipartFile file=null;
     public String getUsername() {
         return username;
     }
@@ -26,5 +17,8 @@ public class Avatar {
     }
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+    public String toString(){
+        return username+" "+file.getOriginalFilename();
     }
 }

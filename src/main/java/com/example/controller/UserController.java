@@ -101,7 +101,39 @@ public class UserController {
 			return new ImgResult(200,null);
 		}
 	}
+	@CrossOrigin
+	@PostMapping("/api/modifyavatar1")
+	@ResponseBody
+	//修改头像
+	public ImgResult singleFileUpload1(String username,MultipartFile file){
+		System.out.println("修改头像 ");
 
+		System.out.println(username+" "+file.getOriginalFilename());
+		if (file==null || file.isEmpty()) {
+			System.out.println("null");
+			return new ImgResult(400,null);
+		}
+		System.out.println(username+" "+file.getOriginalFilename());
+		try {
+			byte[] bytes = file.getBytes();
+			String root = ROOT + username+"/";
+			Path path = Paths.get(root+file.getOriginalFilename());
+			//如果没有files文件夹，则创建
+			if (!Files.isWritable(path)) {
+				Files.createDirectories(Paths.get(root));
+			}
+			//文件写入指定路径
+			Files.write(path, bytes);
+			Query query=new Query();
+			User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
+			ret.setAvatarurl(path.toString());
+			mongotemplate.save(ret);
+			return new ImgResult(200,path.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ImgResult(200,null);
+		}
+	}
 
 	@CrossOrigin
 	@GetMapping(value="api/userlists")
