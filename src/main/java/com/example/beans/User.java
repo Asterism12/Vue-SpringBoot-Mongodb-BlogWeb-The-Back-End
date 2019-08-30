@@ -25,7 +25,16 @@ public class User extends Entity{
 	private String sex;
 	private int age;
 	private String sign;
-	
+	private String avatarurl;
+
+	public String getAvatarurl() {
+		return avatarurl;
+	}
+
+	public void setAvatarurl(String avatarurl) {
+		this.avatarurl = avatarurl;
+	}
+
 	public void setsign(String sign) {
 		this.sign=sign;
 	}
@@ -65,6 +74,7 @@ public class User extends Entity{
     public User() {
     	this.registertime=new Date();
       	this.sex="男";
+      	this.avatarurl="";
     }
 
     public String getUsername() {

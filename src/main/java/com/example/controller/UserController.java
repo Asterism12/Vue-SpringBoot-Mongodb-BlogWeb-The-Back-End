@@ -1,9 +1,14 @@
 package com.example.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import com.example.result.ImgResult;
 import com.example.result.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -15,11 +20,13 @@ import org.springframework.web.bind.annotation.*;
 import com.example.beans.User;
 import com.example.result.MessageResult;
 import com.example.result.UserResult;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class UserController {
 	@Autowired
 	private MongoTemplate mongotemplate;
+	public static  final String ROOT = "./avatar/";
 	@CrossOrigin
 	@GetMapping("/api/user")
 	@ResponseBody
@@ -35,6 +42,7 @@ public class UserController {
 		userresult.setsign(ret.getsign());
 		userresult.setUsername(ret.getUsername());
 		userresult.setblogs(ret.getBlogs());
+		userresult.setAvatarurl(ret.getAvatarurl());
 		return userresult;
 	}
 
@@ -43,6 +51,7 @@ public class UserController {
 	@ResponseBody
 	//修改个人信息
 	public MessageResult modifyinfo(@RequestBody User requestUser){
+		System.out.println("修改个人信息 "+requestUser.getUsername());
 		String username=requestUser.getUsername();
 		Query query=new Query();
 		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
@@ -57,61 +66,41 @@ public class UserController {
 			return new MessageResult(200,"修改成功");
 		}
 	}
+	@CrossOrigin
+	@PostMapping("/api/modifyavatar")
+	@ResponseBody
+	//修改头像
+	public ImgResult singleFileUpload(String username,MultipartFile file){
 
-	/*@CrossOrigin
-	@PostMapping("/hhh")
-	@ResponseBody
-	public MessageResult changeusername(String username1,String username2,String password) {
-		Query query=new Query();
-		Criteria criteria=new Criteria();
-		criteria.and("username").is(username1);
-		criteria.and("password").is(User.encode(password));
-		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
-		if(ret==null) {
-			return new MessageResult(400,"用户名或原密码错误");
+		if (file==null || file.isEmpty()) {
+			return new ImgResult(400,null);
 		}
-		else {
-			ret.setUsername(username2);
+		System.out.println("修改头像 "+username+" "+file.getOriginalFilename());
+		try {
+			byte[] bytes = file.getBytes();
+			Path path = Paths.get(ROOT + username+"/"+file.getOriginalFilename());
+			//如果没有files文件夹，则创建
+			if (!Files.isWritable(path)) {
+				Files.createDirectories(Paths.get(ROOT));
+			}
+			//文件写入指定路径
+			Files.write(path, bytes);
+			Query query=new Query();
+			User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
+			ret.setAvatarurl(path.toString());
 			mongotemplate.save(ret);
-			return new MessageResult(200,"修改成功");
+			return new ImgResult(200,path.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ImgResult(200,null);
 		}
-	}*/
-	
-	/*@CrossOrigin
-	@PostMapping("/mm")
-	@ResponseBody
-	public MessageResult changepassword(String username,String password1,String password2) {
-		Query query=new Query();
-		Criteria criteria=new Criteria();
-		criteria.and("username").is(username);
-		criteria.and("password").is(User.encode(password1));
-		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
-		if(ret==null) {
-			return new MessageResult(400,"用户名或原密码错误");
-		}
-		else {
-			ret.setPassword(password2);
-			mongotemplate.save(ret);
-			return new MessageResult(200,"修改成功");
-		}
-	}*/
-	
-	/*@CrossOrigin
-	@PostMapping("/t")
-	@ResponseBody
-	public MessageResult attention(String username) {
-		User ret=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)),User.class);
-		if(ret==null) return new MessageResult(400,"用户不存在");
-		else {
-			ret.setattention();
-			mongotemplate.save(ret);
-			return new MessageResult(200,"关注成功");
-		}
-	}*/
+	}
+
 
 	@CrossOrigin
 	@GetMapping(value="api/userlists")
 	@ResponseBody
+	//搜索用户
 	public List<UserResult> finduser(@RequestParam(value="keyword") String keyword) {
 		System.out.println("搜索用户 "+keyword);
 		Pattern pattern = Pattern.compile("^.*" + keyword +".*$",Pattern.CASE_INSENSITIVE);

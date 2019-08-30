@@ -13,6 +13,16 @@ public class UserResult {
 	private String sex;
 	private int age;
 	private String sign;
+	private String avatarurl;
+
+	public String getAvatarurl() {
+		return avatarurl;
+	}
+
+	public void setAvatarurl(String avatarurl) {
+		this.avatarurl = avatarurl;
+	}
+
 	public void setsign(String sign) {
 		this.sign=sign;
 	}
