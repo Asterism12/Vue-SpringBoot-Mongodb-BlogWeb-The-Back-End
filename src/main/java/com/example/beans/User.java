@@ -23,18 +23,12 @@ public class User extends Entity{
 	private int age;
 	private String sign;
 	private String avatarurl;
-	public Map<String ,Integer> map=new HashMap<String,Integer>();
+	public String[] searchhistory=new String[20];
+	private int point=0;
 	
 	public void addsearch(String keyword) {
-		if(map.containsKey(keyword)) {
-			Integer a=map.get(keyword);
-			a++;
-			map.put(keyword, a);
-		}
-		else {
-			Integer a=1;
-			map.put(keyword,a);
-		}
+		searchhistory[point]=keyword;
+		point=(point+1)%20;
 	}
 
 	public String getAvatarurl() {

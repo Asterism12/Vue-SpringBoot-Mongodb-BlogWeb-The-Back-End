@@ -63,13 +63,11 @@ public class BlogController {
     public List<BlogResult> searchBlog(@RequestParam(value="username") String username,@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
     {
         System.out.println("博文内容搜索 "+keyword+" "+code);
-        User ret=mongotemplate.findOne(new Query(), User.class);
-        if(ret==null) {
-        	return null;
-        }
-        else {
+        User ret=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)), User.class);
+        if(ret!=null) {
         ret.addsearch(keyword);
         mongotemplate.save(ret);
+        }
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
         Criteria criteria = new Criteria();
         if(code!=0) {
@@ -77,6 +75,7 @@ public class BlogController {
         }
         else criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
         Query query = new Query(criteria);
+        query.with(new Sort(Sort.Direction.DESC,"weight"));
         List<Blog> resault = mongotemplate.find(query,Blog.class);
         List<BlogResult> blogs=new ArrayList<BlogResult>();
         for(int i=0;i<resault.size();i++) {
@@ -91,7 +90,7 @@ public class BlogController {
             blogs.add(blogresult);
         }
         return blogs;
-        }
+        
     }
 
 
@@ -205,7 +204,7 @@ public class BlogController {
         }
     }
 	
-	 @CrossOrigin
+	@CrossOrigin
     @PostMapping(value="/api/recommend")
     @ResponseBody
     //用户推荐
@@ -216,27 +215,28 @@ public class BlogController {
     	List<Blog> searchresult=new ArrayList<Blog>();
     	if(ret==null) {
     		Query query=new Query();
-    		query.with(new Sort(Sort.Direction.DESC,"bid"));
+    		query.with(new Sort(Sort.Direction.DESC,"weight"));
+    		query.limit(8);
     		searchresult=mongotemplate.find(query,Blog.class);
     	}
     	else {//针对搜索到的用户进行推荐
-    		Integer maxi=0;
-    		String key="";
-    		for(Integer max:ret.map.values()) {
-    			if(max>maxi) maxi=max;
-    		}
-    		for(Map.Entry<String , Integer>m:ret.map.entrySet()) {
-    			if(m.getValue().equals(maxi)) {
-    				key=m.getKey();
+    		for(int i=0;i<20;i++) {
+    			int j;
+    			for(j=0;j<i;j++) {
+    				if(ret.searchhistory[i].equals(ret.searchhistory[j])) break;
+    				
+    			}
+    			if(j<i) continue;
+    			else {
+    				Pattern pattern = Pattern.compile("^.*"+ret.searchhistory[i]+".*$",Pattern.CASE_INSENSITIVE);
+    				Criteria criteria=new Criteria();
+    				criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
+    				Query query=new Query(criteria);
+    				query.with(new Sort(Sort.Direction.DESC,"weight"));
+    				searchresult.addAll(mongotemplate.find(query, Blog.class));
     			}
     		}
-    		Query query=new Query();
-    		Criteria criteria=new Criteria();
-    		Pattern pattern = Pattern.compile("^.*"+key+".*$",Pattern.CASE_INSENSITIVE);
-    		criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
-    		query.addCriteria(criteria);
-    		query.with(new Sort(Sort.Direction.DESC,"bid"));
-    		searchresult=mongotemplate.find(query, Blog.class);
+    		
     	}
     	for(int i=0;i<searchresult.size();i++) {
         	BlogResult blogresult=new BlogResult();

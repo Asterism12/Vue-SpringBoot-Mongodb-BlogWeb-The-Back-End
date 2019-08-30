@@ -23,6 +23,7 @@ public class Blog extends Entity{
 	private int commentCount;
 	private int code;//文章分类
 	private String Abstract;
+	private int weight;
 
 	private ArrayList<Comments> commentsArrayList = new ArrayList<Comments>();
 	public void setbid() {
@@ -50,7 +51,10 @@ public class Blog extends Entity{
 		this.date = date;
 	}
 
-	public void setViewCount(){this.viewCount++;}
+	public void setViewCount(){
+		this.viewCount++;
+		this.weight=viewCount/5+(int)bid;
+	}
 
 	public void setAuthor(String author){this.author=author;}
 
