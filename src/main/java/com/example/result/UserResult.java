@@ -19,6 +19,9 @@ public class UserResult {
 	public String getsign() {
 		return sign;
 	}
+	public void setblogs(List<Blog> a) {
+		blogs=a;
+	}
 	
 	public void setage(int age) {
 		this.age=age;
@@ -34,12 +37,6 @@ public class UserResult {
 	}	
 	public List<Blog> getBlogs(){
 		return blogs;
-	}
-	public void addBlog(Blog blog) {
-		blogs.add(blog);
-	}
-	public void deleteBlog(Blog blog) {
-		blogs.remove(blog);
 	}
 	public String getUsername() {
         return username;
