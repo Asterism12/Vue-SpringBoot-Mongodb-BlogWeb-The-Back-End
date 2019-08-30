@@ -63,13 +63,11 @@ public class BlogController {
     public List<BlogResult> searchBlog(@RequestParam(value="username") String username,@RequestParam(value="keyword") String keyword, @RequestParam(value="classification") int code)
     {
         System.out.println("博文内容搜索 "+keyword+" "+code);
-        User ret=mongotemplate.findOne(new Query(), User.class);
-        if(ret==null) {
-        	return null;
-        }
-        else {
+        User ret=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)), User.class);
+        if(ret!=null) {
         ret.addsearch(keyword);
         mongotemplate.save(ret);
+        }
         Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
         Criteria criteria = new Criteria();
         if(code!=0) {
@@ -91,9 +89,8 @@ public class BlogController {
             blogs.add(blogresult);
         }
         return blogs;
-        }
+        
     }
-
 
 
    @CrossOrigin
