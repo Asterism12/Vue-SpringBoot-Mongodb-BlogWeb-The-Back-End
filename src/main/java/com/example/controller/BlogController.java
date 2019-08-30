@@ -180,10 +180,12 @@ public class BlogController {
     @ResponseBody
     //博客上传图片
     public ImgResult singleFileUpload(@RequestParam(value="image") MultipartFile file){
+        System.out.println("上传图片 ");
         if (file==null || file.isEmpty()) {
+            System.out.println("null");
             return new ImgResult(400,null);
         }
-        System.out.println("上传图片 "+file.getOriginalFilename());
+        System.out.println(file.getOriginalFilename());
         try {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(ROOT + file.getOriginalFilename());

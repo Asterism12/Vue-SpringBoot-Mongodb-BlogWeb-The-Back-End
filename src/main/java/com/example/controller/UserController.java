@@ -71,11 +71,12 @@ public class UserController {
 	@ResponseBody
 	//修改头像
 	public ImgResult singleFileUpload(@RequestParam(value="username") String username,@RequestParam(value="avatar") MultipartFile file){
-
+		System.out.println("修改头像 ");
 		if (file==null || file.isEmpty()) {
+			System.out.println("null");
 			return new ImgResult(400,null);
 		}
-		System.out.println("修改头像 "+username+" "+file.getOriginalFilename());
+		System.out.println(username+" "+file.getOriginalFilename());
 		try {
 			byte[] bytes = file.getBytes();
 			String root = ROOT + username+"/";
