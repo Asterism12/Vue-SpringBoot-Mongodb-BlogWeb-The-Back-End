@@ -153,6 +153,7 @@ public class UserController {
 			userresult.setsign(ret.get(i).getsign());
 			userresult.setUsername(ret.get(i).getUsername());
 			userresult.setblogs(ret.get(i).getBlogs());
+          userresult.setAvatarurl(ret.get(i).getAvatarurl());
 			userlist.add(userresult);
 		}
 		return userlist;
