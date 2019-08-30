@@ -27,6 +27,26 @@ public class UserController {
 		return ret;
 	}
 
+  	@CrossOrigin
+	@PostMapping("/api/modifyinfo")
+	@ResponseBody
+	//修改个人信息
+	public Result modifyinfo(@RequestBody User requestUser){
+		String username=requestUser.getUsername();
+		Query query=new Query();
+		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
+		if(ret==null) {
+			return new Result(400,"用户不存在");
+		}
+		else {
+			ret.setage(requestUser.getage());
+			ret.setsex(requestUser.getsex());
+			ret.setsign(requestUser.getsign());
+			mongotemplate.save(ret);
+			return new Result(200,"修改成功");
+		}
+	}
+
 	/*@CrossOrigin
 	@PostMapping("/hhh")
 	@ResponseBody

@@ -64,6 +64,7 @@ public class User extends Entity{
     
     public User() {
     	this.registertime=new Date();
+      	this.sex="男";
     }
 
     public String getUsername() {
