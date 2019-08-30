@@ -70,7 +70,7 @@ public class UserController {
 	@PostMapping("/api/modifyavatar")
 	@ResponseBody
 	//修改头像
-	public ImgResult singleFileUpload(String username,MultipartFile file){
+	public ImgResult singleFileUpload(@RequestParam(value="username") String username,@RequestParam(value="avatar") MultipartFile file){
 
 		if (file==null || file.isEmpty()) {
 			return new ImgResult(400,null);
@@ -78,10 +78,11 @@ public class UserController {
 		System.out.println("修改头像 "+username+" "+file.getOriginalFilename());
 		try {
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(ROOT + username+"/"+file.getOriginalFilename());
+			String root = ROOT + username+"/";
+			Path path = Paths.get(root+file.getOriginalFilename());
 			//如果没有files文件夹，则创建
 			if (!Files.isWritable(path)) {
-				Files.createDirectories(Paths.get(ROOT));
+				Files.createDirectories(Paths.get(root));
 			}
 			//文件写入指定路径
 			Files.write(path, bytes);

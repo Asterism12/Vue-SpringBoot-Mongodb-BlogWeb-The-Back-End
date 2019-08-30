@@ -157,7 +157,7 @@ public class BlogController {
     @CrossOrigin
     @ResponseBody
     //博客上传图片
-    public ImgResult singleFileUpload(MultipartFile file){
+    public ImgResult singleFileUpload(@RequestParam(value="image") MultipartFile file){
         if (file==null || file.isEmpty()) {
             return new ImgResult(400,null);
         }
