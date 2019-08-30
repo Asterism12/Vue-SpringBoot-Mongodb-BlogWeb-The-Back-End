@@ -7,6 +7,16 @@
 <body>
     <span>hello </span>
     <div>
+        <form action="api/uploadimg" method="post">
+            <div class="right">
+                <!--上传按钮-->
+                <a href="javascript:;">
+                    <!-- 图片承载容器 -->
+                    <input type="file" class="hide" id="upload" accept="image/gif, image/jpeg, image/jpg, image/png" />
+                </a>
+                <input type="hidden" id="cover" name="cover" value="" />
+            </div>
+        </form>
         <form action="/api/register" method="post" >
             <div>
                 <input type="text" name="username" placeholder="username" class="form-control"/>

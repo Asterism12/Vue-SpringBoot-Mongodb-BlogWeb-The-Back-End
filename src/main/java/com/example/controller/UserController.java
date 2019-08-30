@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.beans.User;
-import com.example.result.Result;
 
 @Controller
 public class UserController {
@@ -31,51 +30,51 @@ public class UserController {
 	/*@CrossOrigin
 	@PostMapping("/hhh")
 	@ResponseBody
-	public Result changeusername(String username1,String username2,String password) {
+	public MessageResult changeusername(String username1,String username2,String password) {
 		Query query=new Query();
 		Criteria criteria=new Criteria();
 		criteria.and("username").is(username1);
 		criteria.and("password").is(User.encode(password));
 		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
 		if(ret==null) {
-			return new Result(400,"用户名或原密码错误");
+			return new MessageResult(400,"用户名或原密码错误");
 		}
 		else {
 			ret.setUsername(username2);
 			mongotemplate.save(ret);
-			return new Result(200,"修改成功");
+			return new MessageResult(200,"修改成功");
 		}
 	}*/
 	
 	/*@CrossOrigin
 	@PostMapping("/mm")
 	@ResponseBody
-	public Result changepassword(String username,String password1,String password2) {
+	public MessageResult changepassword(String username,String password1,String password2) {
 		Query query=new Query();
 		Criteria criteria=new Criteria();
 		criteria.and("username").is(username);
 		criteria.and("password").is(User.encode(password1));
 		User ret=mongotemplate.findOne(query.addCriteria(criteria), User.class);
 		if(ret==null) {
-			return new Result(400,"用户名或原密码错误");
+			return new MessageResult(400,"用户名或原密码错误");
 		}
 		else {
 			ret.setPassword(password2);
 			mongotemplate.save(ret);
-			return new Result(200,"修改成功");
+			return new MessageResult(200,"修改成功");
 		}
 	}*/
 	
 	/*@CrossOrigin
 	@PostMapping("/t")
 	@ResponseBody
-	public Result attention(String username) {
+	public MessageResult attention(String username) {
 		User ret=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)),User.class);
-		if(ret==null) return new Result(400,"用户不存在");
+		if(ret==null) return new MessageResult(400,"用户不存在");
 		else {
 			ret.setattention();
 			mongotemplate.save(ret);
-			return new Result(200,"关注成功");
+			return new MessageResult(200,"关注成功");
 		}
 	}*/
 

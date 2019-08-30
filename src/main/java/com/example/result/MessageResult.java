@@ -1,10 +1,10 @@
 package com.example.result;
 
-public class Result {
+public class MessageResult {
 	private int code;
 	private String message;
 
-	public Result(int code,String message) {
+	public MessageResult(int code, String message) {
 		this.code=code;
 		this.message=message;
 	}

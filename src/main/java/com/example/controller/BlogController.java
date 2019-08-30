@@ -2,14 +2,19 @@ package com.example.controller;
 
 import com.example.beans.Blog;
 import com.example.beans.User;
-import com.example.result.Result;
+import com.example.result.ImgResult;
+import com.example.result.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.mongodb.core.query.Query;
-import java.util.Date;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -17,6 +22,7 @@ import java.util.regex.Pattern;
 public class BlogController {
     @Autowired
     private MongoTemplate mongotemplate;
+    public static  final String ROOT = "upload-dir";
     @RequestMapping("/")
     public String Hello() {
         /*mongotemplate.findAllAndRemove(new Query(),Blog.class);
@@ -68,7 +74,7 @@ public class BlogController {
     @GetMapping(value="api/publish")
     @ResponseBody
     //发布博文
-    public Result publishBlog(@RequestParam(value="username")String username, @RequestParam(value="title") String title, @RequestParam(value="content")String content, @RequestParam(value="classification")int code,@RequestParam(value="date") String date)
+    public MessageResult publishBlog(@RequestParam(value="username")String username, @RequestParam(value="title") String title, @RequestParam(value="content")String content, @RequestParam(value="classification")int code, @RequestParam(value="date") String date)
     {
         System.out.println("发布博文 "+username+" "+title+" "+content+" "+code+" "+date);
         Blog blog = new Blog();
@@ -81,12 +87,12 @@ public class BlogController {
         blog.setCode(code);
         blog.setDate(date);
         User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
-        if(ret==null ) return new Result(400,"发布失败");
+        if(ret==null ) return new MessageResult(400,"发布失败");
         else {
         	ret.addBlog(blog);
         	mongotemplate.save(ret);
         	mongotemplate.save(blog);
-        	return new Result(200,"发布成功");
+        	return new MessageResult(200,"发布成功");
         }
     }
 
@@ -94,7 +100,7 @@ public class BlogController {
     @CrossOrigin
     @GetMapping(value="api/blogdelete")
     //删除博文
-    public Result deleteBlog(@RequestParam(value="bid") long id)
+    public MessageResult deleteBlog(@RequestParam(value="bid") long id)
     {
         System.out.println("删除博文 "+id);
         Query query = new Query();
@@ -113,11 +119,11 @@ public class BlogController {
             ret.setDate(null);
             mongotemplate.save(ret);
             mongotemplate.save(ret2);
-            return new Result(200,"删除成功");
+            return new MessageResult(200,"删除成功");
         }
         else
         {
-            return new Result(400,"删除失败");
+            return new MessageResult(400,"删除失败");
         }
     }
 
@@ -125,7 +131,7 @@ public class BlogController {
     @CrossOrigin
     @GetMapping(value="api/blogmodify")
     //修改文章
-    public Result editBlog(@RequestParam(value="bid") long id,@RequestParam(value="title") String title,@RequestParam(value="content") String content)
+    public MessageResult editBlog(@RequestParam(value="bid") long id, @RequestParam(value="title") String title, @RequestParam(value="content") String content)
     {
         Query query = new Query();
         Blog ret=mongotemplate.findOne(query.addCriteria(Criteria.where("bid").is(id)),Blog.class);
@@ -140,11 +146,28 @@ public class BlogController {
             user.addBlog(ret);
             mongotemplate.save(ret);
             mongotemplate.save(user);
-            return new Result(200,"编辑成功");
+            return new MessageResult(200,"编辑成功");
         }
         else
         {
-            return new Result(400,"编辑失败");
+            return new MessageResult(400,"编辑失败");
         }
     }
+    @CrossOrigin
+    @GetMapping(value="api/uploadimg")
+    //上传图片
+    public ImgResult uploadimg(MultipartFile file){
+        System.out.println("上传图片 "+file.getOriginalFilename());
+        if(!file.isEmpty()){
+            try {
+                Files.copy(file.getInputStream(), Paths.get(ROOT,file.getOriginalFilename()));
+                return new ImgResult(200,Paths.get(ROOT,file.getOriginalFilename()).toString());
+            }
+            catch (IOException e){
+                return new ImgResult(400,null);
+            }
+        }
+        else return new ImgResult(400,null);
+    }
+
 }

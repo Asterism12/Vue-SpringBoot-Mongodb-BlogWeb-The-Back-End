@@ -2,7 +2,7 @@ package com.example.controller;
 
 import com.example.beans.Blog;
 import com.example.beans.Comments;
-import com.example.result.Result;
+import com.example.result.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -20,7 +20,7 @@ public class CommentsController {
     @GetMapping(value="api/comment")
     @ResponseBody
     //发布评论
-    public Result publishComment(@RequestParam(value="username") String username, @RequestParam(value="bid") int id, @RequestParam(value="content")String comment)
+    public MessageResult publishComment(@RequestParam(value="username") String username, @RequestParam(value="bid") int id, @RequestParam(value="content")String comment)
     {
       	System.out.println("发布评论 "+username+" "+id+" "+comment);
         Query query = new Query();
@@ -38,8 +38,8 @@ public class CommentsController {
             blog.writeComments(comments);
             blog.setCommentCount();
             mongotemplate.save(blog);
-            return new Result(200,"发布成功");
+            return new MessageResult(200,"发布成功");
         }
-        else return new Result(400,"发布失败");
+        else return new MessageResult(400,"发布失败");
     }
 }
