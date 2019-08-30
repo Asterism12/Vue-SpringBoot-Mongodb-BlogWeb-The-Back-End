@@ -67,7 +67,7 @@ public class UserController {
 		}
 	}
 	@CrossOrigin
-	@PostMapping("/api/modifyavatar")
+	@PostMapping("/api/modifyavatar1")
 	@ResponseBody
 	//修改头像
 	public ImgResult singleFileUpload(@RequestBody Avatar avatar){
@@ -102,13 +102,13 @@ public class UserController {
 		}
 	}
 	@CrossOrigin
-	@PostMapping("/api/modifyavatar1")
+	@GetMapping("/api/modifyavatar")
 	@ResponseBody
 	//修改头像
-	public ImgResult singleFileUpload1(String username,MultipartFile file){
+	public ImgResult singleFileUpload1(@RequestParam(value="username") String username,@RequestParam(value="file") MultipartFile file){
 		System.out.println("修改头像 ");
-
-		System.out.println(username+" "+file.getOriginalFilename());
+		System.out.println(username);
+		System.out.println(file.getOriginalFilename());
 		if (file==null || file.isEmpty()) {
 			System.out.println("null");
 			return new ImgResult(400,null);
