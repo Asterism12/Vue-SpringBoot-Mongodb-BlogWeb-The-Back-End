@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -22,7 +23,7 @@ import java.util.regex.Pattern;
 public class BlogController {
     @Autowired
     private MongoTemplate mongotemplate;
-    public static  final String ROOT = "upload-dir";
+    public static  final String ROOT = "./uploadimg/";
     @RequestMapping("/")
     public String Hello() {
         /*mongotemplate.findAllAndRemove(new Query(),Blog.class);
@@ -153,21 +154,29 @@ public class BlogController {
             return new MessageResult(400,"编辑失败");
         }
     }
+    @PostMapping(value = "api/uploadimg")
     @CrossOrigin
-    @GetMapping(value="api/uploadimg")
-    //上传图片
-    public ImgResult uploadimg(MultipartFile file){
-        System.out.println("上传图片 "+file.getOriginalFilename());
-        if(!file.isEmpty()){
-            try {
-                Files.copy(file.getInputStream(), Paths.get(ROOT,file.getOriginalFilename()));
-                return new ImgResult(200,Paths.get(ROOT,file.getOriginalFilename()).toString());
-            }
-            catch (IOException e){
-                return new ImgResult(400,null);
-            }
+    @ResponseBody
+    //博客上传图片
+    public ImgResult singleFileUpload(MultipartFile file){
+        if (file==null || file.isEmpty()) {
+            return new ImgResult(400,null);
         }
-        else return new ImgResult(400,null);
+        System.out.println("上传图片 "+file.getOriginalFilename());
+        try {
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(ROOT + file.getOriginalFilename());
+            //如果没有files文件夹，则创建
+            if (!Files.isWritable(path)) {
+                Files.createDirectories(Paths.get(ROOT));
+            }
+            //文件写入指定路径
+            Files.write(path, bytes);
+            return new ImgResult(200,path.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ImgResult(200,null);
+        }
     }
 
 }
