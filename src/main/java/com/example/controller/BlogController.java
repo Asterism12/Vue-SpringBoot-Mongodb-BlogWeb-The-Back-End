@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -25,7 +27,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 @Controller
-@EnableAutoConfiguration(exclude = {MultipartAutoConfiguration.class})
+
 public class BlogController {
     @Autowired
     private MongoTemplate mongotemplate;
@@ -187,29 +189,32 @@ public class BlogController {
     @ResponseBody
 
     //博客上传图片
-    public ImgResult singleFileUpload(MultipartHttpServletRequest request){
+    public ImgResult singleFileUpload(HttpServletRequest request){
+        if(request instanceof MultipartFile) {
+            MultipartHttpServletRequest multipartrequest = (MultipartHttpServletRequest) request;
 
-        System.out.println("上传图片 ");
-        try {
-
-            MultipartFile file=request.getFile("image");
-            byte[] bytes = file.getBytes();
-            if(file.isEmpty()){
-                System.out.println("null");
-                return new ImgResult(400,null);
+            System.out.println("上传图片 ");
+            try {
+                MultipartFile file = multipartrequest.getFile("file");
+                byte[] bytes = file.getBytes();
+                if (file.isEmpty()) {
+                    System.out.println("null");
+                    return new ImgResult(400, null);
+                }
+                Path path = Paths.get(ROOT + file.getOriginalFilename());
+                //如果没有files文件夹，则创建
+                if (!Files.isWritable(path)) {
+                    Files.createDirectories(Paths.get(ROOT));
+                }
+                //文件写入指定路径
+                Files.write(path, bytes);
+                return new ImgResult(200, path.toString());
+            } catch (Exception e) {
+                System.out.println("error");
+                return new ImgResult(400, null);
             }
-            Path path = Paths.get(ROOT + file.getOriginalFilename());
-            //如果没有files文件夹，则创建
-            if (!Files.isWritable(path)) {
-                Files.createDirectories(Paths.get(ROOT));
-            }
-            //文件写入指定路径
-            Files.write(path, bytes);
-            return new ImgResult(200,path.toString());
-        } catch (Exception e) {
-            System.out.println("error");
-            return new ImgResult(400,null);
         }
+        else return new ImgResult(400, null);
     }
 	
 	@CrossOrigin
