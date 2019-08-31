@@ -16,8 +16,8 @@ import java.nio.file.Paths;
 
 @RestController
 public class FileController {
-    private final static String FileDir="/usr/local/uploadfiles/";
-
+    private final static String FileDir="/usr/local/uploadfiles";
+    private final static String rootPath = System.getProperty("user.home")+ File.separator+FileDir+File.separator;
 
 
     @PostMapping(value = "api/upload")
@@ -41,7 +41,7 @@ public class FileController {
             }
             //文件写入指定路径
             Files.write(path, bytes);
-            return new MessageResult(200, path.toString());
+            return new MessageResult(200, "上传成功");
         } catch (Exception e) {
             System.out.println("error");
             return new MessageResult(400, "error");
