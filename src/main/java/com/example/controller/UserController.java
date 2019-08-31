@@ -27,7 +27,7 @@ import javax.swing.*;
 public class UserController {
 	@Autowired
 	private MongoTemplate mongotemplate;
-	public static  final String ROOT = "avatar/";
+	public static  final String ROOT = "///usr/local/avatar/";
 	@CrossOrigin
 	@GetMapping("/api/user")
 	@ResponseBody
@@ -82,7 +82,8 @@ public class UserController {
 		System.out.println(username+" "+file.getOriginalFilename());
 		try {
 			byte[] bytes = file.getBytes();
-			Path path = Paths.get(ROOT+username+".jpg");
+			String filename=username+file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+			Path path = Paths.get(ROOT+filename);
 			//如果没有files文件夹，则创建
 			if (!Files.isWritable(path)) {
 				Files.createDirectories(Paths.get(ROOT));
@@ -93,7 +94,8 @@ public class UserController {
 			User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
 			ret.setAvatarurl(path.toString());
 			mongotemplate.save(ret);
-			return new ImgResult(200,path.toString());
+			String url="avatar/"+filename;
+			return new ImgResult(200,url);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return new ImgResult(200,null);
