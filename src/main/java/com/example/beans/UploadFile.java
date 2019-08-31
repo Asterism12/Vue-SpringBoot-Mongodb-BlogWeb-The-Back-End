@@ -13,7 +13,7 @@ public class UploadFile extends Entity{
 
     private String date;
 
-    private long size;
+    private String size;
 
     private String path;
 
@@ -21,7 +21,15 @@ public class UploadFile extends Entity{
 
     public void setTitle(String title){this.title = title;}
 
-    public void setSize(long size){this.size = size;}
+    public void setSize(long size){
+        if(size <= 1024)
+            this.size=size + "B";
+        else if (size>1024 && size<=1024*1024){
+            this.size=size/1024 + "KB";
+        }
+        else
+            this.size=size/1024/1024 + "MB";
+    }
 
     public void setDate(String date) {
         this.date = date;
@@ -35,7 +43,7 @@ public class UploadFile extends Entity{
 
     public String getDate(){return this.date;}
 
-    public long getSize(){return this.size;}
+    public String getSize(){return this.size;}
 
     public String getPath(){return this.path;}
 }
