@@ -56,7 +56,8 @@ public class FileController {
             }
             //文件写入指定路径
             Files.write(path, bytes);
-            uploadfile.setPath(path);
+            String add = path.toString();
+            uploadfile.setPath(add);
             mongotemplate.save(uploadfile);
 
             return new MessageResult(200, "上传成功");
