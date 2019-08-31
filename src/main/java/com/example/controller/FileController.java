@@ -3,7 +3,6 @@ package com.example.controller;
 
 import com.example.result.MessageResult;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,20 +16,17 @@ import java.nio.file.Paths;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.ROOT;
 
-@Controller
 @RestController
-@RequestMapping("api/file")
 public class FileController {
     private final static String fileDir="files";
     private final static String rootPath = System.getProperty("user.home")+ File.separator+fileDir+File.separator;
 
 
-
-    @PostMapping(value = "api/uploadfile")
+    @PostMapping(value = "api/upload")
     @CrossOrigin
     @ResponseBody
     //博客上传图片
-    public MessageResult singleFileUpload(@RequestParam(value="file",required=false) MultipartFile file){
+    public MessageResult singleFileUpload(@RequestParam(value="file",required=false) MultipartFile file,HttpServletRequest request){
         System.out.println("上传文件 ");
         if (file==null || file.isEmpty()) {
             System.out.println("null");
