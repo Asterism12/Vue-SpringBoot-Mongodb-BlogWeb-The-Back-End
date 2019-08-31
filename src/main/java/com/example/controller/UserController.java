@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -67,8 +68,23 @@ public class UserController {
 			return new MessageResult(200,"修改成功");
 		}
 	}
+	@CrossOrigin
+	@PostMapping("/api/show")
+	@ResponseBody
+	//显示头像
+	public File showAvatar(@RequestParam(value = "username")String username){
 
+		System.out.println("显示头像 "+username);
+		Query query=new Query();
+		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
+		String path=ret.getAvatarurl();
+		File file=new File(path);
+		if(file!=null){
+			System.out.println(path+file.getName());
+		}
+		return file;
 
+	}
 	@CrossOrigin
 	@PostMapping("/api/modifyavatar")
 	@ResponseBody
@@ -94,7 +110,7 @@ public class UserController {
 			User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
 			ret.setAvatarurl(path.toString());
 			mongotemplate.save(ret);
-			String url="//avatar/"+filename;
+			String url="/avatar/"+filename;
 			return new ImgResult(200,url);
 		} catch (IOException e) {
 			e.printStackTrace();
