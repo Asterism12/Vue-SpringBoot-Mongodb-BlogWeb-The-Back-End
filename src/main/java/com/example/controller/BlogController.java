@@ -68,7 +68,7 @@ public class BlogController {
         ret.addsearch(keyword);
         mongotemplate.save(ret);
         }
-        Pattern pattern = Pattern.compile("^.*"+keyword+".*$",Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile(keyword,Pattern.CASE_INSENSITIVE);
         Criteria criteria = new Criteria();
         if(code!=0) {
         	criteria.orOperator(Criteria.where("title").regex(pattern).and("code").is(code),Criteria.where("content").regex(pattern).and("code").is(code));
