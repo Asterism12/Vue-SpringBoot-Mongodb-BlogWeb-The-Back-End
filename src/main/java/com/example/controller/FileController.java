@@ -32,14 +32,15 @@ public class FileController {
     @CrossOrigin
     @ResponseBody
 
-    //博客上传文件
-    public MessageResult singleFileUpload(@RequestParam(value = "file") MultipartFile file,@RequestParam(value = "date")String date, @RequestParam(value = "author")String author,@RequestParam(value = "size")long size,HttpServletRequest request) {
+   //博客上传文件
+    public MessageResult singleFileUpload(@RequestParam(value = "file") MultipartFile file,@RequestParam(value = "date")String date, @RequestParam(value = "author")String author,@RequestParam(value = "size")long size,@RequestParam(value = "name") String title,HttpServletRequest request) {
 
         UploadFile uploadfile = new UploadFile();
         uploadfile.setId(mongotemplate.count(new Query(), UploadFile.class)+1);
         uploadfile.setDate(date);
         uploadfile.setAuthor(author);
         uploadfile.setSize(size);
+        uploadfile.setTitle(title);
 
         System.out.println("上传文件 ");
         try {
