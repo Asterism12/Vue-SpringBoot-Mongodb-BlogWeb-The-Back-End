@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 public class BlogController {
     @Autowired
     private MongoTemplate mongotemplate;
-    public static  final String ROOT = "/uploadimg/";
+    public static  final String ImgDir = "/usr/local/uploadimg/";
 
     @RequestMapping("/")
     public String Hello() {
@@ -194,10 +194,10 @@ public class BlogController {
                 System.out.println("null");
                 return new ImgResult(400, null);
             }
-            Path path = Paths.get(ROOT + file.getOriginalFilename());
+            Path path = Paths.get(ImgDir + file.getOriginalFilename());
             //如果没有files文件夹，则创建
             if (!Files.isWritable(path)) {
-                Files.createDirectories(Paths.get(ROOT));
+                Files.createDirectories(Paths.get(ImgDir));
             }
             //文件写入指定路径
             Files.write(path, bytes);

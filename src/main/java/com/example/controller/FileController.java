@@ -3,7 +3,6 @@ package com.example.controller;
 
 import com.example.result.MessageResult;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +15,7 @@ import java.nio.file.Paths;
 
 @RestController
 public class FileController {
-    private final static String FileDir="/usr/local/uploadfiles";
+    private final static String FileDir="/usr/local/uploadfiles/";
     private final static String rootPath = System.getProperty("user.home")+ File.separator+FileDir+File.separator;
 
 
