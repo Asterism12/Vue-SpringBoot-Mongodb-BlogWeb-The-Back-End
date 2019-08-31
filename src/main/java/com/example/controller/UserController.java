@@ -74,8 +74,6 @@ public class UserController {
 	//修改头像
 	public ImgResult singleFileUpload1(@RequestParam(value="file",required=false) MultipartFile file,@RequestParam(value="username") String username){
 		System.out.println("修改头像 ");
-		System.out.println(username);
-		System.out.println(file.getOriginalFilename());
 		if (file==null || file.isEmpty()) {
 			System.out.println("null");
 			return new ImgResult(400,null);
