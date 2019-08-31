@@ -16,6 +16,6 @@ public class FileConfigurer extends WebMvcConfigurerAdapter{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploadfiles/**").addResourceLocations("file:/usr/local/uploadfiles/");
         registry.addResourceHandler("/avatar/**").addResourceLocations("file:/usr/local/avatar/");
-
+        registry.addResourceHandler("/uploadimg/**").addResourceLocations("file:/usr/local/uploadimg/");
     }
 }

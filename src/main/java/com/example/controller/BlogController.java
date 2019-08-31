@@ -202,7 +202,8 @@ public class BlogController {
             }
             //文件写入指定路径
             Files.write(path, bytes);
-            return new ImgResult(200, path.toString());
+            String url="/uploadimg/"+file.getOriginalFilename();
+            return new ImgResult(200, url);
         } catch (Exception e) {
             System.out.println("error");
             return new ImgResult(400, null);
