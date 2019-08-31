@@ -15,7 +15,7 @@ public class UploadFile extends Entity{
 
     private long size;
 
-    private Path path;
+    private String path;
 
     public void setAuthor(String author){this.author = author;}
 
@@ -27,7 +27,7 @@ public class UploadFile extends Entity{
         this.date = date;
     }
 
-    public void setPath(Path address){this.path = path;}
+    public void setPath(String path){this.path = path;}
 
     public String getAuthor(){return this.author;}
 
@@ -37,5 +37,5 @@ public class UploadFile extends Entity{
 
     public long getSize(){return this.size;}
 
-    public Path getPath(){return this.path;}
+    public String getPath(){return this.path;}
 }
