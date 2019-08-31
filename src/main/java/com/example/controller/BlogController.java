@@ -239,7 +239,7 @@ public class BlogController {
     		}
     		
     	}
-    	for(int i=0;i<searchresult.size();i++) {
+    	for(int i=0;i<8;i++) {
         	BlogResult blogresult=new BlogResult();
         	blogresult.setAbstract(searchresult.get(i).getAbstract());
             blogresult.setTitle(searchresult.get(i).getTitle());
