@@ -26,7 +26,7 @@ public class FileController {
     @CrossOrigin
     @ResponseBody
     //博客上传图片
-    public MessageResult singleFileUpload(@RequestParam(value="file",required=false) MultipartFile file){
+    public MessageResult singleFileUpload(@RequestParam(value="file",required=false) MultipartFile file,HttpServletRequest request){
         System.out.println("上传文件 ");
         if (file==null || file.isEmpty()) {
             System.out.println("null");
