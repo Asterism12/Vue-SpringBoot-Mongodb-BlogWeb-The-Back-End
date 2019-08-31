@@ -28,6 +28,7 @@ public class Blog extends Entity{
 	private ArrayList<Comments> commentsArrayList = new ArrayList<Comments>();
 	public void setbid() {
 		this.bid=super.getId();
+      	this.weight=viewCount/5+(int)bid;
 	}
 	
 	public long getbid() {
