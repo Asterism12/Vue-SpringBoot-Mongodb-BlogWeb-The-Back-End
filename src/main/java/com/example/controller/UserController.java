@@ -72,7 +72,7 @@ public class UserController {
 	@PostMapping("/api/show")
 	@ResponseBody
 	//显示头像
-	public File showAvatar(@RequestParam(value = "username")String username,HttpServletRequest request){
+	public File showAvatar(@RequestBody String username,HttpServletRequest request){
 
 		System.out.println("显示头像 "+username);
 		Query query=new Query();
