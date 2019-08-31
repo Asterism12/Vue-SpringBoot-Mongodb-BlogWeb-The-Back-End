@@ -27,8 +27,10 @@ public class User extends Entity{
 	private int point=0;
 	
 	public void addsearch(String keyword) {
-		searchhistory[point]=keyword;
-		point=(point+1)%20;
+		if(keyword!="") {
+			searchhistory[point]=keyword;
+			point=(point+1)%20;
+		}
 	}
 
 	public String getAvatarurl() {
