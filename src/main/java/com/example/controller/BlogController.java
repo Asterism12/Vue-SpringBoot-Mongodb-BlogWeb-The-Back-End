@@ -186,7 +186,7 @@ public class BlogController {
     //博客上传图片
     public ImgResult singleFileUpload(@RequestParam(value="file")MultipartFile file,HttpServletRequest request){
 
-        System.out.println("上传图片 ");
+        System.out.println("上传图片 "+file.getOriginalFilename());
         try {
 
             if (file.isEmpty()) {
