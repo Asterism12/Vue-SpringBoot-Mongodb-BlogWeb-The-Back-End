@@ -25,16 +25,17 @@ public class FileController {
     @PostMapping(value = "api/upload")
     @CrossOrigin
     @ResponseBody
-    //博客上传图片
-    public MessageResult singleFileUpload(@RequestParam(value="file",required=false) MultipartFile file,HttpServletRequest request){
+
+    //博客上传文件
+    public MessageResult singleFileUpload(@RequestParam(value="file")MultipartFile file, HttpServletRequest request){
+
         System.out.println("上传文件 ");
-        if (file==null || file.isEmpty()) {
-            System.out.println("null");
-            return new MessageResult(400,null);
-        }
-        System.out.println(file.getOriginalFilename());
         try {
             byte[] bytes = file.getBytes();
+            if (file.isEmpty()) {
+                System.out.println("null");
+                return new MessageResult(400, "文件为空");
+            }
             Path path = Paths.get(ROOT + file.getOriginalFilename());
             //如果没有files文件夹，则创建
             if (!Files.isWritable(path)) {
@@ -42,11 +43,12 @@ public class FileController {
             }
             //文件写入指定路径
             Files.write(path, bytes);
-            return new MessageResult(200,path.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new MessageResult(200,null);
+            return new MessageResult(200, path.toString());
+        } catch (Exception e) {
+            System.out.println("error");
+            return new MessageResult(400, "error");
         }
+
     }
 
 
