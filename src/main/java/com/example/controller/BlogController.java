@@ -183,17 +183,18 @@ public class BlogController {
     @PostMapping(value = "api/uploadimg")
     @CrossOrigin
     @ResponseBody
-
     //博客上传图片
     public ImgResult singleFileUpload(@RequestParam(value="file")MultipartFile file,HttpServletRequest request){
 
         System.out.println("上传图片 ");
         try {
-            byte[] bytes = file.getBytes();
+
             if (file.isEmpty()) {
                 System.out.println("null");
                 return new ImgResult(400, null);
             }
+            byte[] bytes = file.getBytes();
+            System.out.println(file.getOriginalFilename());
             Path path = Paths.get(ImgDir + file.getOriginalFilename());
             //如果没有files文件夹，则创建
             if (!Files.isWritable(path)) {
