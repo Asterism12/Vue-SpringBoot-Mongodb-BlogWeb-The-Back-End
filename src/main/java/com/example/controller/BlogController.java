@@ -222,6 +222,7 @@ public class BlogController {
     	else {//针对搜索到的用户进行推荐
     		for(int i=0;i<20;i++) {
     			int j;
+              	if(ret.searchhistory[i]=="") continue;
     			for(j=0;j<i;j++) {
     				if(ret.searchhistory[i].equals(ret.searchhistory[j])) break;
     				
