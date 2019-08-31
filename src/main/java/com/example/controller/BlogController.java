@@ -27,6 +27,7 @@ public class BlogController {
     @Autowired
     private MongoTemplate mongotemplate;
     public static  final String ROOT = "/uploadimg/";
+
     @RequestMapping("/")
     public String Hello() {
         /*mongotemplate.findAllAndRemove(new Query(),Blog.class);
