@@ -237,8 +237,13 @@ public class BlogController {
     				searchresult.addAll(mongotemplate.find(query, Blog.class));
     			}
     		}
-    		Set<Blog> middleHashSet = new HashSet<Blog>(searchresult);
-    		searchresult = new ArrayList<Blog>(middleHashSet);
+    		for(int i=0;i<searchresult.size();i++) {
+    			for(int j=0;j<i;j++) {
+    				if(searchresult.get(j).getbid()==searchresult.get(i).getbid()) {
+    					searchresult.remove(i);
+    				}
+    			}
+    		}
     	}
       	int length;
       	length=8<searchresult.size()?8:searchresult.size();
