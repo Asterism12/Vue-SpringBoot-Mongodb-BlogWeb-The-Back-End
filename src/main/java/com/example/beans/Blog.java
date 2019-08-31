@@ -102,6 +102,9 @@ public class Blog extends Entity{
 	{
 		commentsArrayList.remove(comments);
 	}
-
+	public boolean equals(Blog b) {
+		if(this.bid==b.getbid()) return true;
+		else return false;
+	}
 
 }
