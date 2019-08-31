@@ -6,6 +6,8 @@ import com.example.result.BlogResult;
 import com.example.result.ImgResult;
 import com.example.result.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,6 +25,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 @Controller
+@EnableAutoConfiguration(exclude = {MultipartAutoConfiguration.class})
 public class BlogController {
     @Autowired
     private MongoTemplate mongotemplate;
@@ -177,19 +179,25 @@ public class BlogController {
             return new MessageResult(400,"编辑失败");
         }
     }
+
+
+
     @PostMapping(value = "api/uploadimg")
     @CrossOrigin
     @ResponseBody
+
     //博客上传图片
-    public ImgResult singleFileUpload(@RequestBody MultipartFile file){
+    public ImgResult singleFileUpload(MultipartHttpServletRequest request){
+
         System.out.println("上传图片 ");
-        if (file.isEmpty()) {
-            System.out.println("null");
-            return new ImgResult(400,null);
-        }
-        System.out.println(file.getOriginalFilename());
         try {
+
+            MultipartFile file=request.getFile("image");
             byte[] bytes = file.getBytes();
+            if(file.isEmpty()){
+                System.out.println("null");
+                return new ImgResult(400,null);
+            }
             Path path = Paths.get(ROOT + file.getOriginalFilename());
             //如果没有files文件夹，则创建
             if (!Files.isWritable(path)) {
@@ -198,9 +206,9 @@ public class BlogController {
             //文件写入指定路径
             Files.write(path, bytes);
             return new ImgResult(200,path.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ImgResult(200,null);
+        } catch (Exception e) {
+            System.out.println("error");
+            return new ImgResult(400,null);
         }
     }
 	

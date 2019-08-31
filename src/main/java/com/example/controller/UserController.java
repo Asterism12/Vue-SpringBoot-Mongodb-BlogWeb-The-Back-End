@@ -12,6 +12,8 @@ import com.example.beans.Avatar;
 import com.example.result.ImgResult;
 import com.example.result.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -22,7 +24,10 @@ import com.example.beans.User;
 import com.example.result.UserResult;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
+@EnableAutoConfiguration(exclude = {MultipartAutoConfiguration.class})
 public class UserController {
 	@Autowired
 	private MongoTemplate mongotemplate;
@@ -72,7 +77,7 @@ public class UserController {
 	@PostMapping("/api/modifyavatar")
 	@ResponseBody
 	//修改头像
-	public ImgResult singleFileUpload1(@RequestParam(value="file",required=false) MultipartFile file,@RequestParam(value="username") String username){
+	public ImgResult singleFileUpload1(@RequestParam(value="username") String username, @RequestParam(value="file",required=false) MultipartFile file, HttpServletRequest request){
 		System.out.println("修改头像 ");
 		if (file==null || file.isEmpty()) {
 			System.out.println("null");
