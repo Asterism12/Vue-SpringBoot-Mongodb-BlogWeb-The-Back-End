@@ -224,7 +224,7 @@ public class BlogController {
     	if(ret==null) {
     		Query query=new Query();
     		query.with(new Sort(Sort.Direction.DESC,"weight"));
-    		query.limit(8);
+    		query.limit(6);
     		searchresult=mongotemplate.find(query,Blog.class);
     	}
     	else {//针对搜索到的用户进行推荐
@@ -248,7 +248,7 @@ public class BlogController {
     		
     	}
       	int length;
-      	length=8<searchresult.size()?8:searchresult.size();
+      	length=6<searchresult.size()?6:searchresult.size();
     	for(int i=0;i<length;i++) {
         	BlogResult blogresult=new BlogResult();
         	blogresult.setAbstract(searchresult.get(i).getAbstract());
