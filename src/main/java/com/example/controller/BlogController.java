@@ -18,9 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 @Controller
@@ -227,7 +225,13 @@ public class BlogController {
     	}
     	else {//针对搜索到的用户进行推荐
     		for(int i=0;i<20;i++) {
+    			int j;
               	if(ret.searchhistory[i]==""||ret.searchhistory[i]==null) continue;
+    			for(j=0;j<i;j++) {
+    				if(ret.searchhistory[i].equals(ret.searchhistory[j])) break;
+    				
+    			}
+    			if(j<i) continue;
     			else {
     				Pattern pattern = Pattern.compile("^.*"+ret.searchhistory[i]+".*$",Pattern.CASE_INSENSITIVE);
     				Criteria criteria=new Criteria();
@@ -237,8 +241,7 @@ public class BlogController {
     				searchresult.addAll(mongotemplate.find(query, Blog.class));
     			}
     		}
-    		Set<Blog> middleHashSet = new HashSet<Blog>(searchresult);
-    		searchresult = new ArrayList<Blog>(middleHashSet);
+    		
     	}
       	int length;
       	length=8<searchresult.size()?8:searchresult.size();
