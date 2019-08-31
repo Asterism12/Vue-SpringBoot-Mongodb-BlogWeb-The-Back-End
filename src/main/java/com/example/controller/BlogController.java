@@ -6,8 +6,6 @@ import com.example.result.BlogResult;
 import com.example.result.ImgResult;
 import com.example.result.MessageResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.web.bind.annotation.*;
@@ -15,15 +13,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 @Controller
@@ -31,7 +26,7 @@ import java.util.regex.Pattern;
 public class BlogController {
     @Autowired
     private MongoTemplate mongotemplate;
-    public static  final String ROOT = "./uploadimg/";
+    public static  final String ROOT = "usr/local/uploadimg/";
     @RequestMapping("/")
     public String Hello() {
         /*mongotemplate.findAllAndRemove(new Query(),Blog.class);
@@ -189,32 +184,28 @@ public class BlogController {
     @ResponseBody
 
     //博客上传图片
-    public ImgResult singleFileUpload(HttpServletRequest request){
-        if(request instanceof MultipartFile) {
-            MultipartHttpServletRequest multipartrequest = (MultipartHttpServletRequest) request;
+    public ImgResult singleFileUpload(@RequestParam(value="file")MultipartFile file,HttpServletRequest request){
 
-            System.out.println("上传图片 ");
-            try {
-                MultipartFile file = multipartrequest.getFile("file");
-                byte[] bytes = file.getBytes();
-                if (file.isEmpty()) {
-                    System.out.println("null");
-                    return new ImgResult(400, null);
-                }
-                Path path = Paths.get(ROOT + file.getOriginalFilename());
-                //如果没有files文件夹，则创建
-                if (!Files.isWritable(path)) {
-                    Files.createDirectories(Paths.get(ROOT));
-                }
-                //文件写入指定路径
-                Files.write(path, bytes);
-                return new ImgResult(200, path.toString());
-            } catch (Exception e) {
-                System.out.println("error");
+        System.out.println("上传图片 ");
+        try {
+            byte[] bytes = file.getBytes();
+            if (file.isEmpty()) {
+                System.out.println("null");
                 return new ImgResult(400, null);
             }
+            Path path = Paths.get(ROOT + file.getOriginalFilename());
+            //如果没有files文件夹，则创建
+            if (!Files.isWritable(path)) {
+                Files.createDirectories(Paths.get(ROOT));
+            }
+            //文件写入指定路径
+            Files.write(path, bytes);
+            return new ImgResult(200, path.toString());
+        } catch (Exception e) {
+            System.out.println("error");
+            return new ImgResult(400, null);
         }
-        else return new ImgResult(400, null);
+
     }
 	
 	@CrossOrigin

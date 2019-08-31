@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 	@Autowired
 	private MongoTemplate mongotemplate;
-	public static  final String ROOT = "./avatar/";
+	public static  final String ROOT = "usr/local/avatar/";
 	@CrossOrigin
 	@GetMapping("/api/user")
 	@ResponseBody
