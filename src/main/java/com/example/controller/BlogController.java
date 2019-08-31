@@ -247,7 +247,9 @@ public class BlogController {
     		}
     		
     	}
-    	for(int i=0;i<8;i++) {
+      	int length;
+      	length=8<searchresult.size()?8:searchresult.size();
+    	for(int i=0;i<length;i++) {
         	BlogResult blogresult=new BlogResult();
         	blogresult.setAbstract(searchresult.get(i).getAbstract());
             blogresult.setTitle(searchresult.get(i).getTitle());
