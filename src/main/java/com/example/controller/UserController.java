@@ -72,8 +72,8 @@ public class UserController {
 	@PostMapping("/api/show")
 	@ResponseBody
 	//显示头像
-	public File showAvatar(@RequestBody String username,HttpServletRequest request){
-
+	public File showAvatar(@RequestBody User user,HttpServletRequest request){
+		String username=user.getUsername();
 		System.out.println("显示头像 "+username);
 		Query query=new Query();
 		User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
