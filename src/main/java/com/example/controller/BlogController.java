@@ -18,7 +18,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 @Controller
@@ -26,8 +28,7 @@ import java.util.regex.Pattern;
 public class BlogController {
     @Autowired
     private MongoTemplate mongotemplate;
-    public static  final String ImgDir = "/usr/local/uploadimg/";
-
+    public static  final String ROOT = "/uploadimg/";
     @RequestMapping("/")
     public String Hello() {
         /*mongotemplate.findAllAndRemove(new Query(),Blog.class);
@@ -194,10 +195,10 @@ public class BlogController {
                 System.out.println("null");
                 return new ImgResult(400, null);
             }
-            Path path = Paths.get(ImgDir + file.getOriginalFilename());
+            Path path = Paths.get(ROOT + file.getOriginalFilename());
             //如果没有files文件夹，则创建
             if (!Files.isWritable(path)) {
-                Files.createDirectories(Paths.get(ImgDir));
+                Files.createDirectories(Paths.get(ROOT));
             }
             //文件写入指定路径
             Files.write(path, bytes);
@@ -226,13 +227,7 @@ public class BlogController {
     	}
     	else {//针对搜索到的用户进行推荐
     		for(int i=0;i<20;i++) {
-    			int j;
               	if(ret.searchhistory[i]==""||ret.searchhistory[i]==null) continue;
-    			for(j=0;j<i;j++) {
-    				if(ret.searchhistory[i].equals(ret.searchhistory[j])) break;
-    				
-    			}
-    			if(j<i) continue;
     			else {
     				Pattern pattern = Pattern.compile("^.*"+ret.searchhistory[i]+".*$",Pattern.CASE_INSENSITIVE);
     				Criteria criteria=new Criteria();
@@ -242,7 +237,8 @@ public class BlogController {
     				searchresult.addAll(mongotemplate.find(query, Blog.class));
     			}
     		}
-    		
+    		Set<Blog> middleHashSet = new HashSet<Blog>(searchresult);
+    		searchresult = new ArrayList<Blog>(middleHashSet);
     	}
       	int length;
       	length=8<searchresult.size()?8:searchresult.size();
