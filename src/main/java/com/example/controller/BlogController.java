@@ -183,7 +183,7 @@ public class BlogController {
     //博客上传图片
     public ImgResult singleFileUpload(@RequestBody MultipartFile file){
         System.out.println("上传图片 ");
-        if (file==null || file.isEmpty()) {
+        if (file.isEmpty()) {
             System.out.println("null");
             return new ImgResult(400,null);
         }
