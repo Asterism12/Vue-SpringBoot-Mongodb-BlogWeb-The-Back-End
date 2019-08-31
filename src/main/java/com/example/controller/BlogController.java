@@ -203,6 +203,7 @@ public class BlogController {
             //文件写入指定路径
             Files.write(path, bytes);
             String url="/uploadimg/"+file.getOriginalFilename();
+            System.out.println(url);
             return new ImgResult(200, url);
         } catch (Exception e) {
             System.out.println("error");
