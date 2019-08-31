@@ -14,12 +14,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.springframework.data.mongodb.core.aggregation.Aggregation.ROOT;
-
 @RestController
 public class FileController {
-    private final static String fileDir="files";
-    private final static String rootPath = System.getProperty("user.home")+ File.separator+fileDir+File.separator;
+    private final static String FileDir="/usr/local/uploadfiles/";
+
 
 
     @PostMapping(value = "api/upload")
@@ -36,10 +34,10 @@ public class FileController {
                 System.out.println("null");
                 return new MessageResult(400, "文件为空");
             }
-            Path path = Paths.get(ROOT + file.getOriginalFilename());
+            Path path = Paths.get(FileDir + file.getOriginalFilename());
             //如果没有files文件夹，则创建
             if (!Files.isWritable(path)) {
-                Files.createDirectories(Paths.get(ROOT));
+                Files.createDirectories(Paths.get(FileDir));
             }
             //文件写入指定路径
             Files.write(path, bytes);
