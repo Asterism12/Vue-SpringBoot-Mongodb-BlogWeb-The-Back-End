@@ -94,7 +94,7 @@ public class UserController {
 			User ret=mongotemplate.findOne(query.addCriteria(Criteria.where("username").is(username)),User.class);
 			ret.setAvatarurl(path.toString());
 			mongotemplate.save(ret);
-			String url="avatar/"+filename;
+			String url="//avatar/"+filename;
 			return new ImgResult(200,url);
 		} catch (IOException e) {
 			e.printStackTrace();
