@@ -218,6 +218,7 @@ public class BlogController {
     	String username=requestuser.getUsername();
     	User ret=mongotemplate.findOne(new Query().addCriteria(Criteria.where("username").is(username)), User.class);
     	List<BlogResult> recommend=new ArrayList<BlogResult>();
+    	List<Blog> result=new ArrayList<Blog>();
     	List<Blog> searchresult=new ArrayList<Blog>();
     	if(ret==null) {
     		Query query=new Query();
@@ -234,14 +235,18 @@ public class BlogController {
     				criteria.orOperator(Criteria.where("title").regex(pattern),Criteria.where("content").regex(pattern));
     				Query query=new Query(criteria);
     				query.with(new Sort(Sort.Direction.DESC,"weight"));
-    				searchresult.addAll(mongotemplate.find(query, Blog.class));
+    				result.addAll(mongotemplate.find(query, Blog.class));
     			}
     		}
-    		for(int i=0;i<searchresult.size();i++) {
-    			for(int j=0;j<i;j++) {
-    				if(searchresult.get(j).getbid()==searchresult.get(i).getbid()) {
-    					searchresult.remove(i);
+    		for(int i=0;i<result.size();i++) {
+    			int j;
+    			for(j=0;j<i;j++) {
+    				if(result.get(j).getbid()==result.get(i).getbid()) {
+    					break;
     				}
+    			}
+    			if(i==j) {
+    				searchresult.add(result.get(i));
     			}
     		}
     	}
