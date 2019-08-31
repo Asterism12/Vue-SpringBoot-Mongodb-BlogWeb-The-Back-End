@@ -16,15 +16,13 @@ import java.nio.file.Paths;
 
 import static org.springframework.data.mongodb.core.aggregation.Aggregation.ROOT;
 
-@Controller
 @RestController
-@RequestMapping("api/file")
 public class FileController {
     private final static String fileDir="files";
     private final static String rootPath = System.getProperty("user.home")+ File.separator+fileDir+File.separator;
 
 
-    @PostMapping(value = "api/uploadfile")
+    @PostMapping(value = "api/upload")
     @CrossOrigin
     @ResponseBody
     //博客上传图片
