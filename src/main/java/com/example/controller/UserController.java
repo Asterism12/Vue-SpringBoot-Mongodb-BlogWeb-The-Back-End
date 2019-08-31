@@ -21,12 +21,13 @@ import com.example.result.UserResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.*;
 
 @Controller
 public class UserController {
 	@Autowired
 	private MongoTemplate mongotemplate;
-	public static  final String ROOT = "usr/local/avatar/";
+	public static  final String ROOT = "avatar/";
 	@CrossOrigin
 	@GetMapping("/api/user")
 	@ResponseBody
@@ -81,11 +82,10 @@ public class UserController {
 		System.out.println(username+" "+file.getOriginalFilename());
 		try {
 			byte[] bytes = file.getBytes();
-			String root = ROOT + username+"/";
-			Path path = Paths.get(root+file.getOriginalFilename());
+			Path path = Paths.get(ROOT+username+".jpg");
 			//如果没有files文件夹，则创建
 			if (!Files.isWritable(path)) {
-				Files.createDirectories(Paths.get(root));
+				Files.createDirectories(Paths.get(ROOT));
 			}
 			//文件写入指定路径
 			Files.write(path, bytes);
