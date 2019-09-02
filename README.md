@@ -17,3 +17,7 @@ The front end part is here:https://github.com/Asterism12/Vue-SpringBoot-Mongodb-
 - Personal home page.
 
 - Simple system of file sharing.
+
+---
+
+You can view the demo here:http://114.115.170.8:8000/
